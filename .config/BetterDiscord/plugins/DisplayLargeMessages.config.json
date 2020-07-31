@@ -1,0 +1,11 @@
+{
+	"amounts": {
+		"maxFileSize": 10
+	},
+	"changelog": {
+		"currentversion": "1.0.2"
+	},
+	"settings": {
+		"onDemand": false
+	}
+}

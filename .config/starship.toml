@@ -1,0 +1,26 @@
+[custom.updates]
+command = ""  # shows output of command
+when = "true"
+prefix = "updates "
+
+[custom.good_status]
+command = "echo "ヾ(●´▽｀●)ﾉ彡☆勹”ﾉヽ""
+prefix = "last command "
+when = "test $status -eq 0"
+
+[custom.bad_status]
+command = "echo "(╯°□°）╯︵ ┻━┻""
+prefix = "last command "
+when = "test $status -ne 0"
+
+[time]
+disabled = false
+format = "🕙[ %T ]"
+utc_time_offset = "+2"
+time_range = "06:00:00-22:00:00"
+
+[custom.battery]
+command = "upower -i (upower -e | grep BAT) | grep --color=never -E "state|to\ full|to\ empty|percentage" | grep percentage | cut  -b 25-27"
+when = "true"
+prefix = "battery: "
+disabled = false

@@ -1,4 +1,5 @@
 if status is-interactive
+	wal -i ~/Downloads/pics/rain.png
 	thefuck --alias | source
 	starship init fish | source
 	figlet "Welcome Back!" | lolcat

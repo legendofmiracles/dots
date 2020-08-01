@@ -5,7 +5,7 @@ class lmgtfy {
 		this.description = "Creates a lmgtfy link for people who can't google";
 		this.usage = "lmgtfy [what to google]";
 
-		this.url = "http://lmgtfy.com/?q=";
+		this.url = "https://lmddgtfy.net/?q=";
 	}
 
 	execute(message, args) {

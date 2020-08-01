@@ -1,5 +1,5 @@
 if status is-interactive
-	wal -i ~/Downloads/pics/rain.png >> /dev/null
+	wal -i ~/Pictures/Screenshot_20200731_090055.png >> /dev/null
 	thefuck --alias | source
 	starship init fish | source
 	figlet "Welcome Back!" | lolcat

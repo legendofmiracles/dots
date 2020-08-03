@@ -50,14 +50,8 @@ bindsym $mod+Shift+q kill
 # starts spectacle (a screenshot tool)
 bindsym $mod+q exec spectacle
 
-# start krunner (a program launcher)
-bindsym $mod+d exec krunner
-
-
-#bindsym $mod+j focus left
-#bindsym $mod+k focus down
-#bindsym $mod+l focus up
-#bindsym $mod+semicolon focus right
+# start rofi (a program launcher)
+bindsym $mod+d exec rofi_pre
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left

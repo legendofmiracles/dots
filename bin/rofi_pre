@@ -1,0 +1,2 @@
+#!/bin/bash
+ rofi -combi-modi window,drun,ssh -font "Cascadia Code PL 10" -show run -theme flamingo

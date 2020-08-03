@@ -36,7 +36,7 @@ class figlet {
 
     message["content"] = arguments_;
 
-    const cow = spawn("figlet", [arguments_]);
+    const cow = spawn("figlet", [arguments_], {shell: true});
 
     cow.stdout.on("data", (data) => {
       BotNeckAPI.nextMessagePost(() => {

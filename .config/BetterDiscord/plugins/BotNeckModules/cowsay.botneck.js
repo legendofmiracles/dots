@@ -35,7 +35,7 @@ class cowsay {
     }
     message["content"] = arguments_;
 
-    const cow = spawn("cowsay", [arguments_]);
+    const cow = spawn("cowsay", [arguments_], {shell: true});
 
     cow.stdout.on("data", (data) => {
       BotNeckAPI.nextMessagePost(() => {

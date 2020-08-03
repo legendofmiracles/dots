@@ -22,13 +22,19 @@ class figlet {
         "You need at least 1 arguments for this command!"
       ));
 
-    message["content"] = "loading...";
+    
 	
     let arguments_ = "";
     for (var i = 0; i < BotNeckAPI.getArgumentNumber(args); i++) {
       console.log(args[i])
-      arguments_ += args[i] + " ";
+      if (i != BotNeckAPI.getArgumentNumber(args) - 1) {
+        arguments_ += args[i] + " ";
+      } else {
+        arguments_ += args[i];
+      }
     }
+
+    message["content"] = arguments_;
 
     const cow = spawn("figlet", [arguments_]);
 

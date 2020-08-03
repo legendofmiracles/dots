@@ -1,6 +1,8 @@
+// You must have cowsay installed and in the path.
+
+
 const { spawn } = require("child_process");
-//const https = require('https');
-//const request = require("request");
+
 
 class cowsay {
   constructor() {

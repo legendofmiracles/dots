@@ -1,0 +1,3 @@
+[submodule ".config/rofiemoji-rofiunicode"]
+	path = .config/rofiemoji-rofiunicode
+	url = https://git.teknik.io/matf/rofiemoji-rofiunicode

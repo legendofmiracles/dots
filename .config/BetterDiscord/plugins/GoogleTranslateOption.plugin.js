@@ -29,17 +29,13 @@ var GoogleTranslateOption = (_ => {
 	return class GoogleTranslateOption {
 		getName () {return "GoogleTranslateOption";}
 
-		getVersion () {return "2.0.6";}
+		getVersion () {return "2.0.7";}
 
 		getAuthor () {return "DevilBro";}
 
 		getDescription () {return "Adds a Google Translate option to your context menu, which shows a preview of the translated text and on click will open the selected text in Google Translate. Also adds a translation button to your textareas, which will automatically translate the text for you before it is being send.";}
 
 		constructor () {
-			this.changelog = {
-				"added":[["Papago","New translation engine, mostly used for asian languages, rather limited"]]
-			};
-			
 			this.patchedModules = {
 				before: {
 					ChannelTextAreaForm: "render",
@@ -183,7 +179,6 @@ var GoogleTranslateOption = (_ => {
 					}),
 					disabled: !translated && isTranslating,
 					action: _ => {
-						BDFDB.ContextMenuUtils.close(e.instance);
 						this.translateMessage(e.instance.props.message, e.instance.props.channel);
 					}
 				}));
@@ -205,10 +200,11 @@ var GoogleTranslateOption = (_ => {
 				let translating, foundTranslation, foundInput, foundOutput;
 				let [children, index] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: ["devmode-copy-id", "search-google"], group: true});
 				children.splice(index > -1 ? index + 1 : 0, 0, BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuGroup, {
-					children: BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuPersistingItem, {
+					children: BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 						id: BDFDB.ContextMenuUtils.createItemId(this.name, "search-translation"),
 						disabled: isTranslating,
 						label: this.labels.context_googletranslateoption_text,
+						persisting: true,
 						action: event => {
 							let item = BDFDB.DOMUtils.getParent(BDFDB.dotCN.menuitem, event.target);
 							if (item) {
@@ -288,7 +284,7 @@ var GoogleTranslateOption = (_ => {
 						children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ChannelTextAreaButton, {
 							key: "translate-button",
 							className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN._googletranslateoptiontranslatebutton, translating && BDFDB.disCN._googletranslateoptiontranslating, BDFDB.disCN.textareapickerbutton),
-							iconClassName: BDFDB.disCN.textareaicon,
+							nativeClass: true,
 							iconSVG: translateIconGeneral
 						}),
 						width: 400,
@@ -1089,3 +1085,5 @@ var GoogleTranslateOption = (_ => {
 		}
 	}
 })();
+
+module.exports = GoogleTranslateOption;

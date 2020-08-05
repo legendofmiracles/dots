@@ -25,12 +25,16 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+# backlight control
+bindsym XF86MonBrightnessDown exec --no-statup-id xbacklight -10%
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-#set -Ux D '#ff00ffcc'
+
 # locks the screen
-# variables are:
+# variables are (for fish):
 #set -Ux W '#880000bb'
 #set W '#880000bb'
 #set -Ux T '#ee00eeee'

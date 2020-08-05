@@ -1,4 +1,4 @@
-#!/usr/bin/python3.8
+#!/usr/bin/env python3.8
 print("HALLO JONAS!")
 jonas = input("DU BIST DOCH JONAS, ODER? (Y/N)")
 if jonas == "Y":

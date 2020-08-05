@@ -1,0 +1,15 @@
+###
+### The lolsu cow
+###
+$the_cow = <<EOC;
+   $thoughts
+    $thoughts __
+	$thoughts
+	 $thoughts
+	  $thoughts
+	  /
+	 /
+	 $thoughts
+	  $thoughts
+	 (LOLSU's OPINION)
+EOC

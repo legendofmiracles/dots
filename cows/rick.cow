@@ -1,0 +1,25 @@
+###
+### My pfp as a cow ;)
+###
+$the_cow = <<"EOC";
+	$thoughts
+	oxxxxxxxkkxxxxxxxddddddddxxdddddddddddddddddddddddxxxxxxxo
+        dkkxxkkkkxxxxxkkkkxxdddddddddddl::;;:lddxxdddddddddddxxxxo
+        dkkkkkkkkkkOkkkkkkkxxkxxxxdddoc,'',,,',dxxxddxxddddddddddo
+        dkkkkkkkkkkOkkkkkxxxkkkkkkxxdc;;;:cccc,ddxxddxxddddddddddo
+        dkkkkkkkkkkkkkkkxkkxxxkkkxdddcc;;,c:cccddddddddddddddddddo
+        dkkkkOOOOOkkkkkkOOOkxxxxxxxxxol;;,:ccldxxdddddddxxxxdddddo
+        dkkOOOOOOOkkkkkkkkkkkxxxxxxxxxd:;;cccodxxxdddddxxxxxxddddo
+        dkOOOOOOOkkkkOOkkkkkkxxxxxxxxxlc:;:ccl.';:cllodxxxxxxxxddo
+        dkkOOOkkkkkkkOOOOkOkkxddxxdc;;;;:;;coc.........'ldxxxxdddl
+        dkkkkkkkkxxkkkkkkkkkxddo:'....:l:;:c:...........'dddxddddl
+        xkkkkkkkkxxkkkkkkkkxdddc......,o;;;,.............cdddddddo
+        dkkkkkkkxxxkkkxkxxxxdddo.......,,,,,...... ......;dddddxxo
+        dxxxkkkxxxxkkxxxxxxxdddd'......'.,,..''...... ....lddddddo
+        oxxxxkkxxxxxxxxxxddddddd;........'''::::c:...  ....odddddo
+        dkxxxxxdxxxxxxxxxxxdddddc. ..........',,;::........:dddddo
+        oxxdddddxxxxxxxxxxxdddddl.   .......     ..........odddddo
+        oxxdddddxxxxxxxxxxxddddd:.    .. ....       ..';:loddddddo
+        oxdddddxxxxxxxxxxxdddddd;..   .. ',,'..   ....,ooodddddddl
+
+EOC

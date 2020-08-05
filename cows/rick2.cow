@@ -1,0 +1,25 @@
+###
+### My pfp as a cow ;)
+###
+$the_cow = <<"EOC";
+	$thoughts
+	dkkkkkkOOOOOOOOkkkOOOOOkkkkxkkkkkkkOkkkkkkkkkxxxxxxxkkkkkd
+        xkkkkkkkkOOOOOOkxxdolc;;;;;,;codxkOOkkkOOOkkkkkkxxxxxkkkkd
+        xOOOkkkkkkkOOkxoc;,,,'...'.',;;::coxkkkOOOOOOOOOkkkkkkkkkd
+        k0OOOOkkkkOko:;''......'''....,,,,,;:okkOOOOOOOOkOOkkkkkkd
+        k0OOOOOOOOOxc,.............'',,,,''',;dkkkkkOOOkkkkkkkkkkx
+        k00OOOOOOOd:,''.....''',;::ccllll:,'',ckkkkkkOOkkkkkkkkOOx
+        k000O0OO00l:;,'',;;;;::::::cllloolc;,,;dkOOOkkxxxkkkkkOOOx
+        k000OOOO00kc,'';;;;;;::::;::cllllll:;,:lkOOOkkxxxxkkkkOOOk
+        k00O0OOO00Oo'.';;,,'',,;;::;;,;:ccll:;cdOOOOkkxxxkkkkOOOOx
+        k00OOOOOO0Ox,.',,,,''''',clc;,,:clldo:lOOOOOOOkxkOOOOOO00k
+        k0OOOOOOOOOkc'';;,,'',,,,:lllccclloddllldOOOOOkkOOOOOO000k
+        kOOOOOOO00Okkc,;;;,,,,,,,;c:c:cllloodocllkOOOOkOOOOOO0000k
+        xOOOOOO000OOo;,;;;,,,,,,,;:cll:llllooollxkOOOOkkOOOOO0000k
+        xOkkkO0000OOk:',;,,;,,,,,;;;:clclooooodkkkkkOkkkOOOOOOOO0k
+        xkkOO00000OO0Ol,,;;;,,,......';clllooxkkOkOkkkxxkkkkkOOOOx
+        xkkkOO000OOO000OOx;;;,,,;',,,;cllooodkOOOOOOOxxxkxkkkkkOOx
+        xOOOO00OOkOOO0O0OOd;;;;,;,,,',:clooooxxOOOOOOxxxkkkxkkkkOx
+        xOOOO0OOkkkOOOOOOOOl,,,,;''',;cllllloodccdkOkxxkkkkkkkkkkd
+
+EOC

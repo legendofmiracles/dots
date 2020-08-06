@@ -1,8 +1,8 @@
-# It will not be overwritten, so edit it as you like.
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
 #
+# It will not be overwritten, so edit it as you like.
 
 # i3 config file (v4)
 #
@@ -175,8 +175,8 @@ exec_always --no-startup-id autotiling
 exec sleep 5 && aw-qt
 exec sleep 5 && copyq
 # exec xrandr --output HDMI2 --auto --below eDP1
-exec sleep 1 && startupsound.sh
-
+exec sleep 1 && ~/Videos/startupsound.sh
+exec_always --no-startup-id picom --config /dev/null &
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #E55934 #E55934 #fdfbf7 #2e9ef4   #285577 

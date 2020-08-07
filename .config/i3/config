@@ -176,7 +176,7 @@ exec sleep 5 && aw-qt
 exec sleep 5 && copyq
 # exec xrandr --output HDMI2 --auto --below eDP1
 exec sleep 1 && ~/Videos/startupsound.sh
-exec_always --no-startup-id picom --config /dev/null &
+# exec_always --no-startup-id picom --config /dev/null &
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #E55934 #E55934 #fdfbf7 #2e9ef4   #285577 

@@ -1,5 +1,5 @@
-;==========================================================
 ;
+;==========================================================
 ;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
 ;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
 ;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
@@ -65,7 +65,7 @@ font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
 modules-left = i3 
-modules-center = powermenu protonmail gmail
+modules-center = powermenu gmail
 modules-right = filesystem pulseaudio memory cpu wlan battery temperature date
 
 tray-position = right

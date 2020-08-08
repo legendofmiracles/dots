@@ -26,7 +26,7 @@
             "fullwidth": true,
             "upsidedown": true,
             "varied": true,
-            "leet": false,
+            "leet": true,
             "thicc": false
         },
         "wrappers": {

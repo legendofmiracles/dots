@@ -1,0 +1,24 @@
+$the_cow = <<EOC;
+	$thoughts
+	 $thoughts
+	  $thoughts         
+                    .,'dOl;.           
+                  ldxO0OkdkOkl.         
+                  lx0NWWWN000cO.        
+    c.            cOxKdKdOXXkok.        
+    KX            KNXoXWXNXXko.         
+    :N,           00KxOK0KXXXX.         
+   dON0Nk'        ,XWWWWWNXO'           
+  'OWWWWK:';,'.....'o0XNNXoox..         
+  .KWWWNXo;ldxxxxxxdlKxxkkKO::::'.      
+    '::ll:',,,;;,oxxcONNoc:::::::::.    
+                 lxxcNNK':::::::::::;.  
+                 cxxlNNk;::::,' .,:::;  
+                 ;xxoNNd::::;,. .::;,.  
+                 .xdoNNd:::;', .:;,,.   
+                  XNNNNXkkO0KN,d:;.     
+                  :dddxkkkxdoc;XXdx     
+                  ,xl::::::,,,,..'.     
+                   ,,,;;;:;'...         
+                                        
+EOC

@@ -17,7 +17,7 @@
             "fullwidth": true,
             "upsidedown": true,
             "varied": true,
-            "leet": true,
+            "leet": false,
             "thicc": false
         },
         "formats": {

@@ -192,3 +192,7 @@ mode $gamingMode {
 	# bindcode 9 exec "xdotool click 1"
 	bindsym $mod+g mode "default"
 }
+
+# splash config       
+for_window [class="SPLASH"] border none
+for_window [class="SPLASH"] floating enable

@@ -188,7 +188,7 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 set $gamingMode "gaming_mode"
 bindsym $mod+g mode $gamingMode
 mode $gamingMode {
-	exec_always --no-startup-id picom_script.sh stop &
+	# exec picom_script.sh stop &
 	bindsym control+p exec "xdotool key \"0xff1b\" && xdotool mousemove 986 521 && xdotool click 1 && sleep 0.1 && xdotool mousemove 987 101&& xdotool click --repeat 2 1"
 	# bindcode 9 exec "xdotool click 1"
 	bindsym $mod+g mode "default"

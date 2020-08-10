@@ -23,6 +23,14 @@
 
 
 
+[modulec]
+
+powerc = #A080BF
+cpuc = #A5CD79
+volc = #F67272
+ramc = #E2C961
+clockc = #93BCB7
+
 
 
 [colors]
@@ -64,8 +72,8 @@ font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
-modules-left = i3 
-modules-center = powermenu gmail
+modules-left = menu
+modules-center = i3 gmail 
 modules-right = filesystem pulseaudio memory cpu wlan battery temperature date
 
 tray-position = right
@@ -105,6 +113,14 @@ type = custom/script
 exec = ~/polybar-scripts/info-hackspeed/info-hackspeed.sh
 tail = true
 
+
+[module/menu]
+type = custom/text
+content = 
+content-padding = 2
+content-background = ${modulec.powerc}
+content-foreground = ${color.foreground}
+click-left = ~/bin/rofi_pre
 
 [module/info-softwarecounter]
 type = custom/script

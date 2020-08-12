@@ -35,6 +35,7 @@ height = 31
 ;offset-y = 1%
 radius = 15.5
 fixed-center = false
+tray-position = right
 
 background = ${colors.background}
 foreground = ${colors.foreground}

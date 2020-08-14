@@ -29,13 +29,17 @@ var GoogleTranslateOption = (_ => {
 	return class GoogleTranslateOption {
 		getName () {return "GoogleTranslateOption";}
 
-		getVersion () {return "2.0.7";}
+		getVersion () {return "2.0.8";}
 
 		getAuthor () {return "DevilBro";}
 
 		getDescription () {return "Adds a Google Translate option to your context menu, which shows a preview of the translated text and on click will open the selected text in Google Translate. Also adds a translation button to your textareas, which will automatically translate the text for you before it is being send.";}
 
 		constructor () {
+			this.changelog = {
+				"fixed":[["Channel Mentions","No longer break while translating"]]
+			};
+			
 			this.patchedModules = {
 				before: {
 					ChannelTextAreaForm: "render",
@@ -169,6 +173,7 @@ var GoogleTranslateOption = (_ => {
 				let translated = translatedMessages[e.instance.props.message.id];
 				let hint = BDFDB.BDUtils.isPluginEnabled("MessageUtilities") ? BDFDB.BDUtils.getPlugin("MessageUtilities").getActiveShortcutString("__Translate_Message") : null;
 				let [children, index] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: ["pin", "unpin"]});
+				if (index == -1) [children, index] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: ["edit", "add-reaction", "quote"]});
 				children.splice(index > -1 ? index + 1 : 0, 0, BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 					label: translated ? this.labels.context_messageuntranslateoption_text : this.labels.context_messagetranslateoption_text,
 					id: BDFDB.ContextMenuUtils.createItemId(this.name, translated ? "untranslate-message" : "translate-message"),
@@ -788,7 +793,7 @@ var GoogleTranslateOption = (_ => {
 
 		string2morse (string) {
 			string = string.replace(/ /g, "%%%%%%%%%%");
-			var morse = "";
+			let morse = "";
 			for (let character of string) morse += (morseConverter[character.toLowerCase()] ? morseConverter[character.toLowerCase()] : character) + " ";
 			morse = morse.split("\n");
 			for (let i in morse) morse[i] = morse[i].trim();
@@ -796,12 +801,12 @@ var GoogleTranslateOption = (_ => {
 		}
 
 		binary2string (binary) {
-			var string = "";
+			let string = "";
 			binary = binary.replace(/\n/g, "00001010").replace(/\r/g, "00001101").replace(/\t/g, "00001001").replace(/\s/g, "");
 			if (/^[0-1]*$/.test(binary)) {
-				var eightdigits = "";
-				var counter = 0;
-				for (var digit of binary) {
+				let eightdigits = "";
+				let counter = 0;
+				for (let digit of binary) {
 					eightdigits += digit;
 					counter++;
 					if (counter > 7) {
@@ -816,13 +821,13 @@ var GoogleTranslateOption = (_ => {
 		}
 
 		braille2string (braille) {
-			var string = "";
+			let string = "";
 			for (let character of braille) string += brailleConverter[character.toLowerCase()] ? brailleConverter[character.toLowerCase()] : character;
 			return string;
 		}
 
 		morse2string (morse) {
-			var string = "";
+			let string = "";
 			for (let word of morse.replace(/[_-]/g, "−").replace(/\./g, "·").replace(/\r|\t/g, "").split(/\/|\||\n/g)) {
 				for (let characterstr of word.trim().split(" ")) string += morseConverter[characterstr] ? morseConverter[characterstr] : characterstr;
 				string += " ";
@@ -841,7 +846,7 @@ var GoogleTranslateOption = (_ => {
 		}
 
 		removeExceptions (string, type) {
-			var exceptions = {}, newString = [], count = 0;
+			let exceptions = {}, newString = [], count = 0;
 			if (type == "context") {
 				let text = [], i = 0;
 				string.split("").forEach(chara => { 
@@ -860,7 +865,7 @@ var GoogleTranslateOption = (_ => {
 			}
 			else {
 				string.split(" ").forEach(word => {
-					if (word.indexOf("<@!") == 0 || word.indexOf(":") == 0 || word.indexOf("<:") == 0 || word.indexOf("<a:") == 0 || word.indexOf("@") == 0 || word.indexOf("#") == 0 || (word.indexOf("!") == 0 && word.length > 1)) {
+					if (word.indexOf("<@!") == 0 || word.indexOf("<#") == 0 || word.indexOf(":") == 0 || word.indexOf("<:") == 0 || word.indexOf("<a:") == 0 || word.indexOf("@") == 0 || word.indexOf("#") == 0 || (word.indexOf("!") == 0 && word.length > 1)) {
 						newString.push(`[/////${count}]`);
 						exceptions[count] = word;
 						count++;

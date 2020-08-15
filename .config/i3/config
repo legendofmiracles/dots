@@ -16,7 +16,7 @@ font pango:Cascadia Code PL 10
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -51,8 +51,8 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# starts spectacle (a screenshot tool)
-bindsym $mod+q exec spectacle
+# starts flameshot (a screenshot tool)
+bindsym $mod+q exec flameshot gui
 
 # start rofi (a program launcher)
 bindsym $mod+d exec rofi_pre
@@ -169,7 +169,7 @@ mode "resize" {
 
 
 exec xrandr --output eDP1 --mode 1920x1200
-exec_always --no-startup-id sleep 1 && ~/bin/polybar.sh
+exec_always --no-startup-id ~/bin/polybar.sh
 exec_always --no-startup-id autotiling
 exec sleep 5 && aw-qt
 exec sleep 5 && copyq

@@ -197,3 +197,6 @@ mode $gamingMode {
 # splash config       
 for_window [class="SPLASH"] border none
 for_window [class="SPLASH"] floating enable
+
+
+bindsym $mod+e exec "emacs"

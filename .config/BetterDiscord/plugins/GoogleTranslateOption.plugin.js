@@ -29,7 +29,7 @@ var GoogleTranslateOption = (_ => {
 	return class GoogleTranslateOption {
 		getName () {return "GoogleTranslateOption";}
 
-		getVersion () {return "2.0.8";}
+		getVersion () {return "2.0.9";}
 
 		getAuthor () {return "DevilBro";}
 
@@ -37,18 +37,18 @@ var GoogleTranslateOption = (_ => {
 
 		constructor () {
 			this.changelog = {
-				"fixed":[["Channel Mentions","No longer break while translating"]]
+				"fixed":[["Message Update","Fixed for yet another message update provided by our best friend discord"]]
 			};
 			
 			this.patchedModules = {
 				before: {
 					ChannelTextAreaForm: "render",
 					ChannelEditorContainer: "render",
-					Messages: "render",
 					Embed: "render"
 				},
 				after: {
 					ChannelTextAreaContainer: "render",
+					Messages: "type",
 					MessageContent: "type",
 					Embed: "render"
 				}
@@ -113,7 +113,9 @@ var GoogleTranslateOption = (_ => {
 		}
 
 		// Legacy
-		load () {}
+		load () {
+			if (window.BDFDB && typeof BDFDB === "object" && BDFDB.loaded) BDFDB.PluginUtils.load(this);
+		}
 
 		start () {
 			if (!window.BDFDB) window.BDFDB = {myPlugins:{}};
@@ -161,7 +163,7 @@ var GoogleTranslateOption = (_ => {
 
 		// Begin of own functions
 		
-		onSettingsClosed (instance, wrapper, returnvalue) {
+		onSettingsClosed () {
 			if (this.SettingsUpdated) {
 				delete this.SettingsUpdated;
 				this.forceUpdateAll();
@@ -352,11 +354,11 @@ var GoogleTranslateOption = (_ => {
 		}
 
 		processMessages (e) {
-			e.instance.props.channelStream = [].concat(e.instance.props.channelStream);
-			for (let i in e.instance.props.channelStream) {
-				let message = e.instance.props.channelStream[i].content;
+			e.returnvalue.props.children.props.channelStream = [].concat(e.returnvalue.props.children.props.channelStream);
+			for (let i in e.returnvalue.props.children.props.channelStream) {
+				let message = e.returnvalue.props.children.props.channelStream[i].content;
 				if (message) {
-					if (BDFDB.ArrayUtils.is(message.attachments)) this.checkMessage(e.instance.props.channelStream[i], message);
+					if (BDFDB.ArrayUtils.is(message.attachments)) this.checkMessage(e.returnvalue.props.children.props.channelStream[i], message);
 					else if (BDFDB.ArrayUtils.is(message)) for (let j in message) {
 						let childMessage = message[j].content;
 						if (childMessage && BDFDB.ArrayUtils.is(childMessage.attachments)) this.checkMessage(message[j], childMessage);
@@ -549,7 +551,7 @@ var GoogleTranslateOption = (_ => {
 			if (!message) return;
 			if (translatedMessages[message.id]) {
 				delete translatedMessages[message.id];
-				BDFDB.ModuleUtils.forceAllUpdates(this, ["Messages", "Embed"]);
+				BDFDB.MessageUtils.rerenderAll(true);
 			}
 			else {
 				let content = message.content || "";
@@ -564,7 +566,7 @@ var GoogleTranslateOption = (_ => {
 							embeds[message.embeds[i].id] = (strings.shift() || message.embeds[i].rawDescription).trim();
 						}
 						translatedMessages[message.id] = {content, embeds, input, output};
-						BDFDB.ModuleUtils.forceAllUpdates(this, ["Messages", "Embed"]);
+						BDFDB.MessageUtils.rerenderAll(true);
 					}
 				});
 			}
@@ -893,6 +895,7 @@ var GoogleTranslateOption = (_ => {
 			
 			this.setLanguages();
 			BDFDB.ModuleUtils.forceAllUpdates(this);
+			BDFDB.MessageUtils.rerenderAll();
 		}
 
 		setLabelsByLanguage () {

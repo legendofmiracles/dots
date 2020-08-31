@@ -55,7 +55,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+q exec flameshot gui
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi_pre
+bindsym $mod+d exec ~/bin/rofi_pre
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -171,12 +171,12 @@ mode "resize" {
 exec xrandr --output eDP1 --mode 1920x1200
 exec_always --no-startup-id ~/bin/polybar.sh
 exec_always --no-startup-id autotiling
-exec sleep 5 && aw-qt
+# exec sleep 5 && aw-qt
 exec sleep 5 && copyq
 # exec xrandr --output HDMI2 --auto --below eDP1
-exec sleep 1 && ~/Videos/startupsound.sh
-exec_always --no-startup-id picom_script.sh restart &
-
+#exec sleep 1 && ~/Videos/startupsound.sh
+exec_always --no-startup-id ~/bin/picom_script.sh restart &
+exec optimus-manager-qt &
 # class                 border  backgr. text    indicator child_border
 client.focused          #E55934 #ff217c #fdfbf7 #2e9ef4   #285577 
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a

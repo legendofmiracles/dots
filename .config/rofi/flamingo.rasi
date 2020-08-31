@@ -60,7 +60,6 @@ mainbox {
 
 
 listview {
-	spacing: 0.6em;
 	dynamic: false;
 	cycle: true;
 	padding: 0px 5px 0px 5px;

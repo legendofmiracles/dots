@@ -28,12 +28,12 @@ secondary = #0000ff
 alert = #ffff00
 
 [bar/eDP1]
-monitor = eDP1
+monitor = eDP-1
 width = 100%
-height = 31
+height = 20
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 15.5
+;radius = 15.5
 fixed-center = false
 tray-position = right
 
@@ -43,14 +43,14 @@ foreground = ${colors.foreground}
 line-size = 2
 line-color = #f00
 
-border-left-size = 16
-border-right-size = 16
-border-top-size = 8
-border-bottom-size = 0
+;border-left-size = 16
+;border-right-size = 16
+;border-top-size = 8
+;border-bottom-size = 0
 border-color = #00000000
 
-padding-left = 2
-padding-right = 2
+;padding-left = 2
+;padding-right = 2
 
 module-margin-left = 1
 module-margin-right = 1
@@ -99,7 +99,7 @@ click-left = xdg-open https://mail.protonmail.com/inbox
 
 [module/network-wlan]
 type = internal/network
-interface = wlp3s0
+interface = wlp0s20f3
 format-connected = %{F#ff217c}%{F-} <label-connected>
 
 ; Available tags:

@@ -1,2 +1,2 @@
 #!/bin/bash
-rofi -modi "unicode:~/.config/rofiemoji-rofiunicode/rofiunicode.sh,emoji:~/.config/rofiemoji-rofiunicode/rofiemoji.sh,drun,combi,calc,ssh,window,run,windowcd,keys" -font "Cascadia Code PL 10" -show combi  -theme flamingo -theme-str '#window{width: 30%;}'
+rofi -modi "unicode:~/.config/rofiemoji-rofiunicode/rofiunicode.sh,emoji:~/.config/rofiemoji-rofiunicode/rofiemoji.sh,drun,combi,ssh,window,run,windowcd,keys" -font "Cascadia Code PL 10" -show combi  -theme flamingo

@@ -86,7 +86,7 @@ enable-ipc = true
 
 [module/notification-center]
 type = custom/script
-exec = echo "🖃 "
+exec = echo "»"
 click-left = kill -s USR1 $(pgrep deadd)
 format = <label>
 

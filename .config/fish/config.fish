@@ -10,7 +10,7 @@ if status is-interactive
 	fish_vi_cursor
 end
 
-bind -k ppage 'xdotool key Up; sleep 0.1; xdotool keydown control key a; sleep 0.1; xdotool keyup control; xdotool type "sudo "'
+bind -k ppage 'xdotool key Up; sleep 0.1; xdotool keydown Escape key 0; sleep 0.1; xdotool keyup control; xdotool type "sudo "'
 printf "%s\n" (date) >> /var/log/term_open
 alias ls lsd
 alias mv "mv -v"

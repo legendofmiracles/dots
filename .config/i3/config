@@ -201,3 +201,4 @@ for_window [class="SPLASH"] floating enable
 
 
 bindsym $mod+e exec "emacs"
+bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"

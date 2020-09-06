@@ -175,7 +175,7 @@ exec_always --no-startup-id autotiling
 exec sleep 5 && copyq
 # exec xrandr --output HDMI2 --auto --below eDP1
 #exec sleep 1 && ~/Videos/startupsound.sh
-exec_always --no-startup-id ~/bin/picom_script.sh restart &
+#exec_always --no-startup-id ~/bin/picom_script.sh restart &
 exec sleep 3 && optimus-manager-qt &
 exec deadd-notification-center &
 # class                 border  backgr. text    indicator child_border

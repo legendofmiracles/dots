@@ -43,13 +43,14 @@ floating_modifier $mod
 #set -Ux B '#00000000'
 #set -Ux V '#bb00bbbb'
 #set -Ux W #880000bb
-bindsym $mod+z exec lock
+#bindsym $mod+z exec lock
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
+bindsym $mod+Shift+x exec xkill
 
 # starts flameshot (a screenshot tool)
 bindsym $mod+q exec flameshot gui
@@ -199,6 +200,10 @@ mode $gamingMode {
 for_window [class="SPLASH"] border none
 for_window [class="SPLASH"] floating enable
 
+
+# no titlebar
+#for_window [class="^.*"] border pixel 1
+new_window 1pixel
 
 bindsym $mod+e exec "emacs"
 bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"

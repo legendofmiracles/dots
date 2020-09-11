@@ -16,3 +16,14 @@ alias ls lsd
 alias mv "mv -v"
 alias emacs "i3-swallow emacs"
 alias doas "doas --"
+
+function cd
+		 builtin cd $argv 2>&1 | sed s/"^cd: The directory"/"Bro, how the fuck did you even get so far in live?"/g | cut -d " " -f 1-12
+
+end
+
+# function sudo
+# 		 printf "[sudo] password for (echo $USER):"
+#   		 read -sp "" password
+# 		 /usr/bin/sudo $argv
+# end

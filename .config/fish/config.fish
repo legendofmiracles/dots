@@ -14,14 +14,20 @@ bind -k ppage 'xdotool key Up; sleep 0.1; xdotool keydown Escape key 0; sleep 0.
 printf "%s\n" (date) >> /var/log/term_open
 alias ls lsd
 alias mv "mv -v"
+alias rm "rm -v"
 alias emacs "i3-swallow emacs"
-
+alias shred "shred -v"
 function cd
 		 builtin cd $argv 2>&1 | sed s/"^cd: The directory"/"Bro, how the fuck did you even get so far in live?"/g | cut -d " " -f 1-12
 end
 
-function cargo
-		 /usr/bin/env cargo $argv 2>&1 | sed s/"^error: could not find `Cargo.toml` in `\/"/"How stupid can one be? "/ | cut -d " " -f 1-5
+#function cargo
+#		 /usr/bin/env cargo $argv 2>&1 | sed s/"^error: could not find `Cargo.toml` in `\/"/"How stupid can one be? "/ | cut -d " " -f 1-5
+#
+#end
+
+function yay
+		 /usr/bin/yay $argv 2>&1 | sed s/
 end
 # function sudo
 # 		 printf "[sudo] password for (echo $USER):"

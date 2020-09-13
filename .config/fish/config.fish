@@ -27,7 +27,7 @@ end
 #end
 
 function yay
-		 /usr/bin/yay $argv 2>&1 | sed s/
+		 /usr/bin/yay $argv 2>&1 | sed s/"no packages match search"/"HAAHHAHAHAHAHHAHAH how stupid can one be?"/
 end
 # function sudo
 # 		 printf "[sudo] password for (echo $USER):"

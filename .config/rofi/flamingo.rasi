@@ -11,7 +11,7 @@ configuration {
 	display-ssh: "~#";
 	show-icons: true;
 	sidebar-mode: false;
-	font: "Cascadia Code PL 15";
+	font: "CaskaydiaCove Nerd Font Mono 15";
 }
 
 * {

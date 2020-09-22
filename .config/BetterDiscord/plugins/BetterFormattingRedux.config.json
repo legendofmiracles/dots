@@ -62,13 +62,13 @@
         "strikethrough",
         "spoiler",
         "codeblock",
+        "varied",
         "code",
         "superscript",
         "smallcaps",
         "fullwidth",
         "upsidedown",
         "leet",
-        "thicc",
-        "varied"
+        "thicc"
     ]
 }

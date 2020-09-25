@@ -413,10 +413,6 @@ animation-discharging-framerate = 500
 [module/pulseaudio]
 type = internal/pulseaudio
 
-; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
-; If not, uses default sink
-sink = alsa_output.pci-0000_12_00.3.analog-stereo
-
 ; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
 ; Default: true
 use-ui-max = true
@@ -476,7 +472,7 @@ enable-scroll = false
 type = internal/date
 
 ; Seconds to sleep between updates
-interval = 1.0
+interval = 10.0
 
 date = %d-%m-%Y%
 time = %H:%M

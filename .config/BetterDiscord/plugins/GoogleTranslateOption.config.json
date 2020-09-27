@@ -9,7 +9,7 @@
 		"inputContext": "auto",
 		"inputMessage": "auto",
 		"outputContext": "$discord",
-		"outputMessage": "$discord"
+		"outputMessage": "sv"
 	},
 	"engines": {
 		"translator": "googleapi"

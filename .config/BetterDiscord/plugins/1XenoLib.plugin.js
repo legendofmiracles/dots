@@ -41,7 +41,7 @@ module.exports = (() => {
           twitter_username: ''
         }
       ],
-      version: '1.3.26',
+      version: '1.3.29',
       description: 'Simple library to complement plugins with shared code without lowering performance. Also adds needed buttons to some plugins.',
       github: 'https://github.com/1Lighty',
       github_raw: 'https://raw.githubusercontent.com/1Lighty/BetterDiscordPlugins/master/Plugins/1XenoLib.plugin.js'
@@ -50,7 +50,7 @@ module.exports = (() => {
       {
         title: 'Boring changes',
         type: 'fixed',
-        items: ['Fixed what Zere broke']
+        items: ['aaaaaa']
       }
     ],
     defaultConfig: [
@@ -929,16 +929,23 @@ module.exports = (() => {
     };
 
     const FancyParser = (() => {
-      const ParsersModule = WebpackModules.getByProps('parseAllowLinks', 'parse');
+      const ParsersModule = WebpackModules.getByProps('astParserFor', 'parse');
       try {
         const DeepClone = WebpackModules.find(m => m.default && m.default.toString().indexOf('/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(') !== -1 && !m.useVirtualizedAnchor).default;
         const ReactParserRules = WebpackModules.find(m => m.default && m.default.toString().search(/function\(\){return \w}$/) !== -1).default; /* thanks Zere for not fixing the bug ._. */
-        const FANCY_PANTS_PARSER_RULES = DeepClone([WebpackModules.getByProps('RULES', 'ALLOW_LINKS_RULES').ALLOW_LINKS_RULES, ReactParserRules()]);
-        FANCY_PANTS_PARSER_RULES.image = WebpackModules.getByProps('defaultParse').defaultRules.image;
+        const FANCY_PANTS_PARSER_RULES = DeepClone([WebpackModules.getByProps('RULES').RULES, ReactParserRules()]);
+	const { defaultRules } = WebpackModules.getByProps('defaultParse');
+        FANCY_PANTS_PARSER_RULES.image = defaultRules.image;
+	FANCY_PANTS_PARSER_RULES.link = defaultRules.link;
         return ParsersModule.reactParserFor(FANCY_PANTS_PARSER_RULES);
       } catch (e) {
         Logger.stacktrace('Failed to create special parser', e);
-        return ParsersModule.parseAllowLinks;
+	try {
+        	return ParsersModule.parse;
+	} catch (e) {
+		Logger.stacktrace('Failed to get even basic parser', e);
+		return e => e;
+	}
       }
     })();
     const AnchorClasses = WebpackModules.getByProps('anchor', 'anchorUnderlineOnHover') || {};
@@ -1713,6 +1720,7 @@ module.exports = (() => {
         }
       }
       showChangelog(footer) {
+	      return;
         XenoLib.showChangelog(`${this.name} has been updated!`, this.version, this._config.changelog);
       }
       get name() {
@@ -1747,7 +1755,7 @@ module.exports = (() => {
     if (global.BdApi && 'function' == typeof BdApi.getPlugin) {
       const a = (c, a) => ((c = c.split('.').map(b => parseInt(b))), (a = a.split('.').map(b => parseInt(b))), !!(a[0] > c[0])) || !!(a[0] == c[0] && a[1] > c[1]) || !!(a[0] == c[0] && a[1] == c[1] && a[2] > c[2]),
         b = BdApi.getPlugin('ZeresPluginLibrary');
-      ((b, c) => b && b._config && b._config.info && b._config.info.version && a(b._config.info.version, c))(b, '1.2.20') && (ZeresPluginLibraryOutdated = !0);
+      ((b, c) => b && b._config && b._config.info && b._config.info.version && a(b._config.info.version, c))(b, '1.2.23') && (ZeresPluginLibraryOutdated = !0);
     }
   } catch (e) {
     console.error('Error checking if ZeresPluginLibrary is out of date', e);
@@ -1771,6 +1779,7 @@ module.exports = (() => {
         getDescription() {
           return this.description + ' You are missing ZeresPluginLibrary for this plugin, please enable the plugin and click Download Now.';
         }
+        start() {}
         stop() {}
         handleMissingLib() {
           const a = BdApi.findModuleByProps('openModal', 'hasModalOpen');

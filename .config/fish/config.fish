@@ -11,7 +11,7 @@ if status is-interactive
 end
 
 bind -k ppage 'xdotool key Up; sleep 0.1; xdotool keydown Escape key 0; sleep 0.1; xdotool keyup control; xdotool type "sudo "'
-printf "%s\n" (date) >> /var/log/term_open
+printf "%s\n" (date +%T\ %Y.%m.%d\ %a) >> /var/log/term_open
 alias ls lsd
 alias mv "mv -v"
 alias rm "rm -v"

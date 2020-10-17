@@ -208,3 +208,4 @@ new_window 1pixel
 bindsym $mod+e exec "emacs"
 bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"
 bindsym $mod+Tab exec "auswahl search"
+exec bwall mechanical

@@ -1,0 +1,28 @@
+<eww>
+  <definitions>
+    <def
+        name="list">
+     <literal content="{{list}}"/> 
+    </def>
+  </definitions>
+
+  <variables>
+    <script-var name="list" interval="10000s">
+      /home/legendofmiracles/eww/egs.sh
+    </script-var>
+  </variables>
+
+  <windows>
+    <window name="main_window">
+      <size x="250" y="80" />
+      <pos x="0" y="0" />
+      <widget>
+        <box orientation="v">
+          Games
+          <list/>
+        </box>
+      </widget>
+    </window>
+  </windows>
+</eww>
+

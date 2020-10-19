@@ -13,15 +13,26 @@
   </variables>
 
   <windows>
-    <window name="main_window">
+    <window name="egs">
       <size x="250" y="80" />
       <pos x="0" y="0" />
       <widget>
         <box orientation="v">
           Games
           <list/>
+          <button onclick="eww close {{window_name}}">Quit</button>
         </box>
       </widget>
+    </window>
+    <window name="color">
+     <size x="250" y="80" />
+     <pos x="0" y="0" />
+     <widget>
+       <box>
+        AAA
+       <colorButton/>
+       </box>
+     </widget>
     </window>
   </windows>
 </eww>

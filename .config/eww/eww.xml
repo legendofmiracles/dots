@@ -25,15 +25,30 @@
       </widget>
     </window>
     <window name="color">
-     <size x="250" y="80" />
+     <size x="250" y="100" />
      <pos x="0" y="0" />
      <widget>
        <box>
-        AAA
-       <colorButton/>
+        <expander label="system info" expanded="true">
+          <box orientation="v">
+          CPU 10%
+          RAM 50%
+          <expander label="extra info">
+            SSD 80%
+            CPU CORES: 12
+          </expander>
+          </box>
+        </expander>
        </box>
      </widget>
     </window>
+    <window name="test">
+      <size x="250" y="100"/>
+      <pos x="0" y="0"/>
+        <widget>
+          <color-button onchange="notify-send {}"/>
+        </widget>
+      </window>
   </windows>
 </eww>
 

@@ -46,7 +46,7 @@
       <size x="250" y="100"/>
       <pos x="0" y="0"/>
         <widget>
-          <color-button onchange="notify-send {}"/>
+          <color-chooser onchange="notify-send '{}'"/>
         </widget>
       </window>
   </windows>

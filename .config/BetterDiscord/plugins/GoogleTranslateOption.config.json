@@ -6,10 +6,10 @@
 		"currentversion": "2.0.9"
 	},
 	"choices": {
-		"inputContext": "auto",
-		"inputMessage": "auto",
+		"inputContext": "fr",
+		"inputMessage": "fr",
 		"outputContext": "$discord",
-		"outputMessage": "sv"
+		"outputMessage": "de"
 	},
 	"engines": {
 		"translator": "googleapi"

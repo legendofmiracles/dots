@@ -10,6 +10,7 @@
     <script-var name="list" interval="10000s">
       /home/legendofmiracles/eww/egs.sh
     </script-var>
+    <var name="selection">lolsu</var>
   </variables>
 
   <windows>
@@ -46,7 +47,9 @@
       <size x="250" y="100"/>
       <pos x="0" y="0"/>
         <widget>
-          <color-chooser onchange="notify-send '{}'"/>
+          <combo-box items="[hello\,bye]" onchange="eww update selection {}">
+            {{selection}}
+            </combo-box>
         </widget>
       </window>
   </windows>

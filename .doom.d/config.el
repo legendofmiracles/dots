@@ -73,3 +73,4 @@
 
 (require 'elcord)
 (elcord-mode)
+(define-coding-system-alias 'UTF-8 'utf-8)

@@ -4,6 +4,9 @@
         name="list">
      <literal content="{{list}}"/> 
     </def>
+    <def name="combo-box">
+      <literal content="{{games}}"/>
+    </def>
   </definitions>
 
   <variables>
@@ -11,6 +14,9 @@
       /home/legendofmiracles/eww/egs.sh
     </script-var>
     <var name="selection">lolsu</var>
+    <script-var name="games" interval="100000000000000s">
+      /home/legendofmiracles/eww/games.sh item
+    </script-var>
   </variables>
 
   <windows>
@@ -21,27 +27,10 @@
         <box orientation="v">
           Games
           <list/>
+          <combo-box/>
           <button onclick="eww close {{window_name}}">Quit</button>
         </box>
       </widget>
-    </window>
-    <window name="color">
-     <size x="250" y="100" />
-     <pos x="0" y="0" />
-     <widget>
-       <box>
-        <expander label="system info" expanded="true">
-          <box orientation="v">
-          CPU 10%
-          RAM 50%
-          <expander label="extra info">
-            SSD 80%
-            CPU CORES: 12
-          </expander>
-          </box>
-        </expander>
-       </box>
-     </widget>
     </window>
     <window name="test">
       <size x="250" y="100"/>

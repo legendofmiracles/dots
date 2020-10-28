@@ -1,5 +1,5 @@
 // You must have cowsay installed and in the path.
-
+// Search for '//!' and follow those instructions!
 
 const { spawn } = require("child_process");
 
@@ -35,7 +35,8 @@ class cowsay {
     }
     message["content"] = arguments_;
 
-    const cow = spawn("cowsay", [arguments_], {shell: true});
+    //! be sure to remove the env: part if your cows are in the default path or change it to your home dir
+    const cow = spawn("cowsay", [arguments_], {shell: true, env: {"COWPATH": "/home/legendofmiracles/cows"}});
 
     cow.stdout.on("data", (data) => {
       BotNeckAPI.nextMessagePost(() => {

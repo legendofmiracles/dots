@@ -1,26 +1,35 @@
-//META{"name":"GoogleTranslateOption","authorId":"278543574059057154","invite":"Jx3TjNS","donate":"https://www.paypal.me/MircoWittrien","patreon":"https://www.patreon.com/MircoWittrien","website":"https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/GoogleTranslateOption","source":"https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/GoogleTranslateOption/GoogleTranslateOption.plugin.js"}*//
+/**
+ * @name GoogleTranslateOption
+ * @authorId 278543574059057154
+ * @invite Jx3TjNS
+ * @donate https://www.paypal.me/MircoWittrien
+ * @patreon https://www.patreon.com/MircoWittrien
+ * @website https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/GoogleTranslateOption
+ * @source https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/GoogleTranslateOption/GoogleTranslateOption.plugin.js
+ */
 
 module.exports = (_ => {
-    const config = {
+	const config = {
 		"info": {
 			"name": "GoogleTranslateOption",
 			"author": "DevilBro",
-			"version": "2.1.0",
-			"description": "Adds a Google Translate option to your context menu, which shows a preview of the translated text and on click will open the selected text in Google Translate. Also adds a translation button to your textareas, which will automatically translate the text for you before it is being send."
+			"version": "2.1.1",
+			"description": "Add a Google Translate option to your context menu, which shows a preview of the translated text and on click will open the selected text in Google Translate. Also adds a translation button to your textareas, which will automatically translate the text for you before it is being send"
 		},
 		"changeLog": {
-			"improved": {
-				"Quick Action": "Added Icon to quick action bar. Holding shift while hovering a message shows the quick action bar"
+			"fixed": {
+				"Crashes": "No longer causes crashes"
 			}
 		}
 	};
-    return !window.BDFDB_Global || (!window.BDFDB_Global.loaded && !window.BDFDB_Global.started) ? class {
+	
+	return !window.BDFDB_Global || (!window.BDFDB_Global.loaded && !window.BDFDB_Global.started) ? class {
 		getName () {return config.info.name;}
 		getAuthor () {return config.info.author;}
 		getVersion () {return config.info.version;}
 		getDescription () {return config.info.description;}
 		
-        load() {
+		load() {
 			if (!window.BDFDB_Global || !Array.isArray(window.BDFDB_Global.pluginQueue)) window.BDFDB_Global = Object.assign({}, window.BDFDB_Global, {pluginQueue:[]});
 			if (!window.BDFDB_Global.downloadModal) {
 				window.BDFDB_Global.downloadModal = true;
@@ -31,17 +40,17 @@ module.exports = (_ => {
 					onConfirm: _ => {
 						delete window.BDFDB_Global.downloadModal;
 						require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js", (e, r, b) => {
-							if (!e && b && b.indexOf(`//META{"name":"`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => {});
+							if (!e && b && b.indexOf(`* @name BDFDB`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => {});
 							else BdApi.alert("Error", "Could not download BDFDB library plugin, try again some time later.");
 						});
 					}
 				});
 			}
 			if (!window.BDFDB_Global.pluginQueue.includes(config.info.name)) window.BDFDB_Global.pluginQueue.push(config.info.name);
-        }
-        start() {}
-        stop() {}
-    } : (([Plugin, BDFDB]) => {
+		}
+		start() {this.load();}
+		stop() {}
+	} : (([Plugin, BDFDB]) => {
 		const translateIconGeneral = `<svg x="0" y="0" aria-hidden="false" width="22" height="22" viewBox="0 -1 24 24" fill="currentColor"><mask/><g mask="url(#translateIconMask)"><path d="M 19.794, 3.299 H 9.765 L 8.797, 0 h -6.598 C 0.99, 0, 0, 0.99, 0, 2.199 V 16.495 c 0, 1.21, 0.99, 2.199, 2.199, 2.199 H 9.897 l 1.1, 3.299 H 19.794 c 1.21, 0, 2.199 -0.99, 2.199 -2.199 V 5.498 C 21.993, 4.289, 21.003, 3.299, 19.794, 3.299 z M 5.68, 13.839 c -2.48, 0 -4.492 -2.018 -4.492 -4.492 s 2.018 -4.492, 4.492 -4.492 c 1.144, 0, 2.183, 0.407, 3.008, 1.171 l 0.071, 0.071 l -1.342, 1.298 l -0.066 -0.06 c -0.313 -0.297 -0.858 -0.643 -1.671 -0.643 c -1.441, 0 -2.612, 1.193 -2.612, 2.661 c 0, 1.468, 1.171, 2.661, 2.612, 2.661 c 1.507, 0, 2.161 -0.962, 2.337 -1.606 h -2.43 v -1.704 h 4.344 l 0.016, 0.077 c 0.044, 0.231, 0.06, 0.434, 0.06, 0.665 C 10.001, 12.036, 8.225, 13.839, 5.68, 13.839 z M 11.739, 9.979 h 4.393 c 0, 0 -0.374, 1.446 -1.715, 3.008 c -0.588 -0.676 -0.995 -1.336 -1.254 -1.864 h -1.089 L 11.739, 9.979 z M 13.625, 13.839 l -0.588, 0.583 l -0.72 -2.452 C 12.685, 12.63, 13.13, 13.262, 13.625, 13.839 z M 20.893, 19.794 c 0, 0.605 -0.495, 1.1 -1.1, 1.1 H 12.096 l 2.199 -2.199 l -0.896 -3.041 l 1.012 -1.012 l 2.953, 2.953 l 0.803 -0.803 l -2.975 -2.953 c 0.99 -1.138, 1.759 -2.474, 2.106 -3.854 h 1.397 V 8.841 H 14.697 v -1.144 h -1.144 v 1.144 H 11.398 l -1.309 -4.443 H 19.794 c 0.605, 0, 1.1, 0.495, 1.1, 1.1 V 19.794 z"/></g><extra/></svg>`;
 		const translateIconMask = `<mask id="translateIconMask" fill="black"><path d="M 0 0 H 24 V 24 H 0 Z" fill="white"></path><path d="M24 12 H 12 V 24 H 24 Z" fill="black"></path></mask>`;
 		const translateIcon = translateIconGeneral.replace(`<extra/>`, ``).replace(`<mask/>`, ``).replace(` mask="url(#translateIconMask)"`, ``);
@@ -65,9 +74,9 @@ module.exports = (_ => {
 		};
 		
 		var languages, translating, isTranslating, translatedMessages, oldMessages;
-		var settings = {}, choices = {}, engines = {}, favorites = {};
+		var settings = {}, choices = {}, exceptions = {}, engines = {}, favorites = {};
 	
-        return class GoogleTranslateOption extends Plugin {
+		return class GoogleTranslateOption extends Plugin {
 			onLoad() {
 				languages = {};
 				translating = false;
@@ -78,7 +87,7 @@ module.exports = (_ => {
 				this.defaults = {
 					settings: {
 						useChromium: 			{value:false,			description:"Use an inbuilt browser window instead of opening your default browser"},
-						addTranslateButton:		{value:true, 			description:"Adds an translate button to the chatbar"},
+						addTranslateButton:		{value:true, 			description:"Add an translate button to the chatbar"},
 						sendOriginalMessage:	{value:false, 			description:"Send the original message together with the translation"}
 					},
 					choices: {
@@ -86,6 +95,9 @@ module.exports = (_ => {
 						outputContext:			{value:"$discord", 		direction:"output",		place:"Context", 		description:"Output Language in received Messages:"},
 						inputMessage:			{value:"auto", 			direction:"input",		place:"Message", 		description:"Input Language in sent Messages:"},
 						outputMessage:			{value:"$discord", 		direction:"output",		place:"Message", 		description:"Output Language in sent Messages:"}
+					},
+					exceptions: {
+						wordStart:				{value:["!"],			max:1,		description:"Words starting with any of these will be ignored"}
 					},
 					engines: {
 						translator:				{value:"googleapi", 	description:"Translation Engine:"}
@@ -138,12 +150,29 @@ module.exports = (_ => {
 				settingsItems = settingsItems.concat(this.createSelects(false));
 				
 				for (let key in settings) settingsItems.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsSaveItem, {
-					className: BDFDB.disCN.marginbottom8,
 					type: "Switch",
 					plugin: this,
 					keys: ["settings", key],
 					label: this.defaults.settings[key].description,
 					value: settings[key]
+				}));
+				
+				settingsItems.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.FormComponents.FormDivider, {
+					className: BDFDB.disCNS.dividerdefault + BDFDB.disCN.marginbottom8
+				}));
+				
+				for (let key in exceptions) settingsItems.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.FormComponents.FormItem, {
+					title: this.defaults.exceptions[key].description,
+					className: BDFDB.disCN.marginbottom8,
+					children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ListInput, {
+						placeholder: "New Exception",
+						maxLength: this.defaults.exceptions[key].max,
+						items: exceptions[key],
+						onChange: newExceptions => {
+							this.SettingsUpdated = true;
+							BDFDB.DataUtils.save(newExceptions, this, "exceptions", key);
+						}
+					})
 				}));
 				
 				return settingsPanel = BDFDB.PluginUtils.createSettingsPanel(this, settingsItems);
@@ -159,6 +188,7 @@ module.exports = (_ => {
 			forceUpdateAll () {
 				settings = BDFDB.DataUtils.get(this, "settings");
 				choices = BDFDB.DataUtils.get(this, "choices");
+				exceptions = BDFDB.DataUtils.get(this, "exceptions");
 				engines = BDFDB.DataUtils.get(this, "engines");
 				favorites = BDFDB.DataUtils.load(this, "favorites");
 				
@@ -301,10 +331,10 @@ module.exports = (_ => {
 			
 			processChannelTextAreaContainer (e) {
 				if (settings.addTranslateButton) {
-					let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {name: "ChannelEditorContainer"});
-					if (index > -1 && children[index].props.type == BDFDB.DiscordConstants.TextareaTypes.NORMAL && !children[index].props.disabled) {
-						let [children2, index2] = BDFDB.ReactUtils.findParent(e.returnvalue, {props:[["className", BDFDB.disCN.textareapickerbuttons]]});
-						if (index2 > -1 && children2[index2].props && children2[index2].props.children) children2[index2].props.children.unshift(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.PopoutContainer, {
+					let editor = BDFDB.ReactUtils.findChild(e.returnvalue, {name: "ChannelEditorContainer"});
+					if (editor && editor.props.type == BDFDB.DiscordConstants.TextareaTypes.NORMAL && !editor.props.disabled) {
+						let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props:[["className", BDFDB.disCN.textareapickerbuttons]]});
+						if (index > -1 && children[index].props && children[index].props.children) children[index].props.children.unshift(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.PopoutContainer, {
 							children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ChannelTextAreaButton, {
 								key: "translate-button",
 								className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN._googletranslateoptiontranslatebutton, translating && BDFDB.disCN._googletranslateoptiontranslating, BDFDB.disCN.textareapickerbutton),
@@ -339,19 +369,20 @@ module.exports = (_ => {
 									BDFDB.ReactUtils.forceUpdate(channelTextareaButtonIns);
 								}
 								let popoutelements = [];
-								popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Flex, {
-									className: BDFDB.disCN.marginbottom8,
-									children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsLabel, {
-										label: `Words starting with "!" will be ignored`
-									})
-								}));
-								popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.FormComponents.FormDivider, {
-									className: BDFDB.disCN.marginbottom8
-								}));
+								if (BDFDB.ArrayUtils.is(exceptions.wordStart) && exceptions.wordStart.length) {
+									popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Flex, {
+										className: BDFDB.disCN.marginbottom8,
+										children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsLabel, {
+											label: `Words starting with ${exceptions.wordStart.map(n => '"' + n + '"').join(", ")} will be ignored`
+										})
+									}));
+									popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.FormComponents.FormDivider, {
+										className: BDFDB.disCN.marginbottom8
+									}));
+								}
 								popoutelements = popoutelements.concat(this.createSelects(true));
 								popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsItem, {
 									type: "Switch",
-									className: BDFDB.disCN.marginbottom8,
 									label: "Translate your Messages before sending",
 									tag: BDFDB.LibraryComponents.FormComponents.FormTitle.Tags.H5,
 									value: translating,
@@ -592,14 +623,14 @@ module.exports = (_ => {
 			translateText (text, type, callback) {
 				let toast = null, finishTranslation = translation => {
 					isTranslating = false;
-					if (translation) translation = this.addExceptions(translation, exceptions);
+					if (translation) translation = this.addExceptions(translation, excepts);
 					if (toast) {
 						BDFDB.TimeUtils.clear(toast.interval);
 						toast.close();
 					}
 					callback(translation == text ? "" : translation, input, output);
 				};
-				let [newtext, exceptions, translate] = this.removeExceptions(text.trim(), type);
+				let [newText, excepts, translate] = this.removeExceptions(text.trim(), type);
 				let input = Object.assign({}, languages[this.getLanguageChoice("input", type)]);
 				let output = Object.assign({}, languages[this.getLanguageChoice("output", type)]);
 				if (translate) {
@@ -612,27 +643,27 @@ module.exports = (_ => {
 						}
 						else toast.textContent = toast.textContent.indexOf(".....") > -1 ? "Translating. Please wait" : toast.textContent + ".";
 					}, 500);
-					let specialcase = this.checkForSpecialCase(newtext, input);
+					let specialcase = this.checkForSpecialCase(newText, input);
 					if (specialcase) {
 						input.name = specialcase.name;
 						switch (specialcase.id) {
-							case "binary": newtext = this.binary2string(newtext); break;
-							case "braille": newtext = this.braille2string(newtext); break;
-							case "morse": newtext = this.morse2string(newtext); break;
+							case "binary": newText = this.binary2string(newText); break;
+							case "braille": newText = this.braille2string(newText); break;
+							case "morse": newText = this.morse2string(newText); break;
 						}
 					}
 					if (output.id == "binary" || output.id == "braille" || output.id == "morse") {
 						switch (output.id) {
-							case "binary": newtext = this.string2binary(newtext); break;
-							case "braille": newtext = this.string2braille(newtext); break;
-							case "morse": newtext = this.string2morse(newtext); break;
+							case "binary": newText = this.string2binary(newText); break;
+							case "braille": newText = this.string2braille(newText); break;
+							case "morse": newText = this.string2morse(newText); break;
 						}
-						finishTranslation(newtext);
+						finishTranslation(newText);
 					}
 					else {
 						if (translationEngines[engines.translator] && typeof this[translationEngines[engines.translator].funcName] == "function") {
 							isTranslating = true;
-							this[translationEngines[engines.translator].funcName].apply(this, [{input, output, text:newtext, specialcase, engine:translationEngines[engines.translator]}, finishTranslation]);
+							this[translationEngines[engines.translator].funcName].apply(this, [{input, output, text:newText, specialcase, engine:translationEngines[engines.translator]}, finishTranslation]);
 						}
 						else finishTranslation();
 					}
@@ -854,9 +885,9 @@ module.exports = (_ => {
 				return string.trim();
 			}
 
-			addExceptions (string, exceptions) {
-				for (let count in exceptions) {
-					let exception = exceptions[count].indexOf("!") == 0 ? exceptions[count].slice(1) : exceptions[count];
+			addExceptions (string, excepts) {
+				for (let count in excepts) {
+					let exception = BDFDB.ArrayUtils.is(exceptions.wordStart) && exceptions.wordStart.some(n => excepts[count].indexOf(n) == 0) ? excepts[count].slice(1) : excepts[count];
 					let newstring = string.replace(new RegExp(`\[/////[ ]*${count}\]`), exception);
 					if (newstring == string) string = newstring + " " + exception;
 					else string = newstring;
@@ -865,7 +896,7 @@ module.exports = (_ => {
 			}
 
 			removeExceptions (string, type) {
-				let exceptions = {}, newString = [], count = 0;
+				let excepts = {}, newString = [], count = 0;
 				if (type == "context") {
 					let text = [], i = 0;
 					string.split("").forEach(chara => { 
@@ -876,23 +907,24 @@ module.exports = (_ => {
 					for (let j in text) {
 						if (text[j].indexOf("<") == 0) {
 							newString.push(`[/////${count}]`);
-							exceptions[count] = text[j];
+							excepts[count] = text[j];
 							count++;
 						}
 						else newString.push(text[j]);
 					}
 				}
 				else {
+					let usedExceptions = BDFDB.ArrayUtils.is(exceptions.wordStart) ? exceptions.wordStart : [];
 					string.split(" ").forEach(word => {
-						if (word.indexOf("<@!") == 0 || word.indexOf("<#") == 0 || word.indexOf(":") == 0 || word.indexOf("<:") == 0 || word.indexOf("<a:") == 0 || word.indexOf("@") == 0 || word.indexOf("#") == 0 || (word.indexOf("!") == 0 && word.length > 1)) {
+						if (word.indexOf("<@!") == 0 || word.indexOf("<#") == 0 || word.indexOf(":") == 0 || word.indexOf("<:") == 0 || word.indexOf("<a:") == 0 || word.indexOf("@") == 0 || word.indexOf("#") == 0 || usedExceptions.some(n => word.indexOf(n) == 0 && word.length > 1)) {
 							newString.push(`[/////${count}]`);
-							exceptions[count] = word;
+							excepts[count] = word;
 							count++;
 						}
 						else newString.push(word);
 					});
 				}
-				return [newString.join(" "), exceptions, newString.length-count != 0];
+				return [newString.join(" "), excepts, newString.length-count != 0];
 			}
 
 			getGoogleTranslatePageURL (input, output, text) {
@@ -1098,5 +1130,5 @@ module.exports = (_ => {
 				}
 			}
 		};
-    })(window.BDFDB_Global.PluginUtils.buildPlugin(config));
+	})(window.BDFDB_Global.PluginUtils.buildPlugin(config));
 })();

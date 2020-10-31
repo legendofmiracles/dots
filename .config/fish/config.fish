@@ -1,5 +1,4 @@
 if status is-interactive
-	wal -i ~/Pictures/Screenshot_20200731_090055.png >> /dev/null
 	thefuck --alias | source
 	starship init fish | source
 	# figlet "Welcome Back!" | lolcat
@@ -35,3 +34,4 @@ end
 #   		 read -sp "" password
 # 		 /usr/bin/sudo $argv
 # end
+wal -i Pictures/Screenshot_20200731_090055.png -e

@@ -34,4 +34,4 @@ end
 #   		 read -sp "" password
 # 		 /usr/bin/sudo $argv
 # end
-wal -i Pictures/Screenshot_20200731_090055.png -e
+wal -i Pictures/Screenshot_20200731_090055.png >> /dev/null

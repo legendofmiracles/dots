@@ -16,7 +16,7 @@ font pango:Cascadia Code PL 10
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- lock --nofork
+exec xss-lock --transfer-sleep-lock -- lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -180,7 +180,7 @@ exec sleep 5 && copyq
 exec sleep 3 && optimus-manager-qt &
 exec deadd-notification-center &
 # class                 border  backgr. text    indicator child_border
-client.focused          #E55934 #ff217c #fdfbf7 #2e9ef4   #285577 
+client.focused          #ff217c #ff217c #fdfbf7 #2e9ef4   #ff217c 
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
@@ -203,4 +203,3 @@ bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"
 bindsym $mod+Tab exec "auswahl search"
 bindsym $mod+g exec eww open main_window
 exec libinput-gestures-setup start
-exec wal -i ~/Pictures/Screenshot_20200731_090055.png >> /dev/null   

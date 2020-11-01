@@ -1,0 +1,10 @@
+[Unit]
+Description=V4l2Loopback service
+Requires=multi-user.target
+
+[Service]
+RemainAfterExit=yes
+ExecStart=modprobe v4l2loopback
+ExecStop=rmmod v4l2loopback
+
+

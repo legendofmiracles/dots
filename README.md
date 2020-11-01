@@ -4,4 +4,4 @@ My username is `legendofmiracles`, so you'll have to change it in all config fil
 
 My current setup is plain i3, polybar, rofi, doom emacs ***(basically emacs with vim keybinds and ez mode) **and** vim (tho not configured).
 
-
+You'll also have to syslink the ~/services to /usr/lib/systemd/system in order for systemd to notice them

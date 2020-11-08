@@ -1,0 +1,47 @@
+enable_passive: true
+passive_key: CTRL
+# espanso configuration file
+
+# This is the default configuration file, change it as you like it
+# You can refer to the official documentation:
+# https://espanso.org/docs/
+
+# Matches are the substitution rules, when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+  # Simple text replacement
+  # Dates
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%d/%m/%Y"
+
+  # i'd like to interject for a moment
+  - trigger: ":interjection"
+    replace: "{{interjection}}"
+    vars:
+      - name: interjection
+        type: shell
+        params:
+          cmd: "cat ~/interjection"
+          trim: false
+
+  - { trigger: ":yas", replace: ":clap:use:clap:yas:clap:it's so amazing:clap: (https://github.com/alx365/yas) :clap:"}
+
+  - {trigger: "l", replace: "w", passive_only = true }
+  - {trigger: "v", replace: "w", passive_only = true }
+  - {trigger: "f", replace: "ph", passive_only = true }
+  - {trigger: "u", replace: "uwu", passive_only = true }
+  - {trigger: "i", replace: "w", passive_only = true }
+  - {trigger: "r", replace: "w", passive_only = true }
+  - {trigger: "o", replace: "owo", passve_only = true }
+  - {trigger: "U", replace: "UwU", passive_only = true }
+  - {trigger: "L", replace: "W", passive_only = true }
+  - {trigger: "V", replace: "W", passive_only = true }
+  - {trigger: "F", replace: "PH", passive_only = true }
+  - {trigger: "R", replace: "W", passive_only = true }
+  - {trigger: "L", replace: "W", passive_only = true }
+  - {trigger: "O", replace: "OwO", passve_only = true }

@@ -45,3 +45,10 @@ matches:
   #  - {trigger: "R", replace: "W", passive_only = true }
   #  - {trigger: "L", replace: "W", passive_only = true }
   #  - {trigger: "O", replace: "OwO", passve_only = true }
+  - { trigger: ":bernie", image_path: "/home/legendofmiracles/Downloads/memes/bernie.jpg" }
+  - { trigger: ":disturbed", image_path: "/home/legendofmiracles/Downloads/memes/disturbed.jpg" }
+  - { trigger: ":doge", image_path: "/home/legendofmiracles/Downloads/memes/doge.jpg" }
+  - { trigger: ":harold", image_path: "/home/legendofmiracles/Downloads/memes/harold.jpg" }
+  - { trigger: ":memes", image_path: "/home/legendofmiracles/Downloads/memes/memes.sh" }
+  - { trigger: ":sad", image_path: "/home/legendofmiracles/Downloads/memes/sad.jpg" }
+  - { trigger: ":sealion", image_path: "/home/legendofmiracles/Downloads/memes/sealion.jpg" }

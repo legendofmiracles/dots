@@ -203,3 +203,5 @@ bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"
 bindsym $mod+Tab exec "auswahl search"
 bindsym $mod+g exec eww open main_window
 exec libinput-gestures-setup start
+exec xrandr --output eDP-1-1 --primary
+exec xrandr --output DP-1 --right-of eDP-1-1

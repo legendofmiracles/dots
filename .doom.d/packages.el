@@ -65,3 +65,6 @@
 ;; (setq eaf-evil-leader-keymap  spacemacs-cmds)
 
 (setq eaf-evil-leader-key "SPC")
+
+(package! nyan-mode)
+(package! rainbow-fart)

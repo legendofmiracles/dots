@@ -56,21 +56,28 @@
 (setq company-idle-delay 0.1
             company-minimum-prefix-length 1)
 
-(sound-wav-play "/home/legendofmiracles/DOOM/main.wav")
-(with-eval-after-load "python"
-     (mapcar 'delete-process (process-list))
-     (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
-;; (add-hook 'kill-emacs-hook (lambda () (sound-wav-play "/home/legendofmiracles/DOOM/windows.wav")))
-(with-eval-after-load "rust"
-     (mapcar 'delete-process (process-list))
-     (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
-;; (with-eval-after-load "org"
+;; (sound-wav-play "/home/legendofmiracles/DOOM/main.wav")
+;; (with-eval-after-load "python"
 ;;      (mapcar 'delete-process (process-list))
 ;;      (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
- (with-eval-after-load "javascript"
-     (mapcar 'delete-process (process-list))
-     (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
+;; ;; (add-hook 'kill-emacs-hook (lambda () (sound-wav-play "/home/legendofmiracles/DOOM/windows.wav")))
+;; (with-eval-after-load "rust"
+;;      (mapcar 'delete-process (process-list))
+;;      (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
+;; ;; (with-eval-after-load "org"
+;; ;;      (mapcar 'delete-process (process-list))
+;; ;;      (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
+;;  (with-eval-after-load "javascript"
+;;      (mapcar 'delete-process (process-list))
+;;      (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
 
 (require 'elcord)
 (elcord-mode)
 (define-coding-system-alias 'UTF-8 'utf-8)
+
+(use-package nyan-mode
+    :config
+    (nyan-mode))
+(use-package rainbow-fart
+  :ensure t
+  :init (rainbow-fart-mode 1))

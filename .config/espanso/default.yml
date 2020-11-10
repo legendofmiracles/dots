@@ -45,10 +45,26 @@ matches:
   #  - {trigger: "R", replace: "W", passive_only = true }
   #  - {trigger: "L", replace: "W", passive_only = true }
   #  - {trigger: "O", replace: "OwO", passve_only = true }
-  - { trigger: ":bernie", image_path: "/home/legendofmiracles/Downloads/memes/bernie.jpg" }
-  - { trigger: ":disturbed", image_path: "/home/legendofmiracles/Downloads/memes/disturbed.jpg" }
-  - { trigger: ":doge", image_path: "/home/legendofmiracles/Downloads/memes/doge.jpg" }
-  - { trigger: ":harold", image_path: "/home/legendofmiracles/Downloads/memes/harold.jpg" }
-  - { trigger: ":memes", image_path: "/home/legendofmiracles/Downloads/memes/memes.sh" }
-  - { trigger: ":sad", image_path: "/home/legendofmiracles/Downloads/memes/sad.jpg" }
-  - { trigger: ":sealion", image_path: "/home/legendofmiracles/Downloads/memes/sealion.jpg" }
+  - { trigger: ":bernie", image_path: "/home/legendofmiracles/Downloads/memes/bernie.png" }
+  - { trigger: ":disturbed", image_path: "/home/legendofmiracles/Downloads/memes/disturbed.png" }
+  - { trigger: ":doge", image_path: "/home/legendofmiracles/Downloads/memes/doge.png" }
+  - { trigger: ":harold", image_path: "/home/legendofmiracles/Downloads/memes/harold.png" }
+  - { trigger: ":sad", image_path: "/home/legendofmiracles/Downloads/memes/sad.png" }
+  - { trigger: ":sealion", image_path: "/home/legendofmiracles/Downloads/memes/sealion.png" }
+  - trigger: ":help"
+    replace: "{{help}}"
+    vars:
+      - name: help
+        type: shell
+        params:
+          cmd: "espanso match list"
+
+  - trigger: ":text"
+    replace: "{{text}}"
+    passive_only: true
+    vars:
+      - name: text
+        type: shell
+        params: 
+          cmd: "convert -background black -fill white label:$0 /tmp/label.png && xclip -selection clipboard -t \"image/png\" -i /tmp/label.png && xdotool key --clearmodifiers \"ctrl+v\"" 
+

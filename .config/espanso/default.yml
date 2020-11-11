@@ -67,4 +67,4 @@ matches:
         type: shell
         params: 
           cmd: "convert -background black -fill white label:$0 /tmp/label.png && xclip -selection clipboard -t \"image/png\" -i /tmp/label.png && xdotool key --clearmodifiers \"ctrl+v\"" 
-
+     

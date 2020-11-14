@@ -78,6 +78,6 @@
 (use-package nyan-mode
     :config
     (nyan-mode))
-(use-package rainbow-fart
-  :ensure t
-  :init (rainbow-fart-mode 1))
+
+
+(after! rustic  (setq rustic-lsp-server 'rust-analyzer))

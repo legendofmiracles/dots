@@ -1,0 +1,84 @@
+{
+  "suggest.floatEnable": true,
+  "signature.target": "float",
+  "coc.preferences.hoverTarget": "float",
+  "coc.preferences.echodocSupport": true,
+  "languageserver": {
+    "kotlin": {
+      "command": "kotlin-language-server",
+      "filetypes": ["kotlin"]
+    },
+    "nix": {
+      "command": "/home/leon/coding/projects/rnix-lsp/target/debug/rnix-lsp",
+      "filetypes": ["nix"]
+    },
+
+    /*"haskell": {
+      "command": "ghcide",
+      "args": ["--lsp"],
+      "rootPatterns": [".stack.yaml", ".hie-bios", "BUILD.bazel", "cabal.config", "package.yaml"],
+      "filetypes": ["hs", "lhs", "haskell"]
+    },*/
+    "haskell": {
+      "command": "hie-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml"],
+      "filetypes": ["hs", "lhs", "haskell"],
+      "initializationOptions": {
+        "languageServerHaskell": {}
+      }
+    },
+    /*"haskell": {
+      "command": "/home/leon/Downloads/haskell-language-server-Linux-8.8.2",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml"],
+      "filetypes": ["hs", "lhs", "haskell"],
+      "initializationOptions": {
+        "languageServerHaskell": {
+          "formattingProvider": "brittany"
+        }
+      }
+    },*/
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "initializationOptions": {
+        "elmAnalyseTrigger": "change"
+      }
+    },
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"]
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    }
+  },
+  "codeLens.enable": true,
+  "prettier.useTabs": false,
+  "prettier.singleQuote": false,
+  "prettier.trailingComma": "es5",
+  "prettier.tabWidth": 2,
+  "prettier.printWidth": 100,
+  "prettier.semi": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typscriptreact",
+    "rust"
+  ],
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  },
+  "rust-analyzer.diagnostics.enableExperimental": false,
+  "rust-analyzer.updates.channel": "nightly",
+  "python.jediEnabled": false,
+  "python.autoComplete.extraPaths": ["plover"],
+  "coc-actions.hideCursor": true
+}

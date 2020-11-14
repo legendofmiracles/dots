@@ -205,3 +205,5 @@ bindsym $mod+g exec eww open main_window
 exec libinput-gestures-setup start
 exec xrandr --output eDP-1-1 --primary
 exec xrandr --output DP-1 --right-of eDP-1-1
+for_window [instance=origin.exe] floating enable
+

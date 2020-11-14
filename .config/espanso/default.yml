@@ -1,13 +1,5 @@
 enable_passive: true
 passive_key: CTRL
-# espanso configuration file
-
-# This is the default configuration file, change it as you like it
-# You can refer to the official documentation:
-# https://espanso.org/docs/
-
-# Matches are the substitution rules, when you type the "trigger" string
-# it gets replaced by the "replace" string.
 matches:
   # Simple text replacement
   # Dates
@@ -30,21 +22,14 @@ matches:
           trim: false
 
   - { trigger: ":yas", replace: ":clap:use:clap:yas:clap:it's so amazing:clap: (https://github.com/alx365/yas) :clap:"}
-
-  #  - {trigger: "l", replace: "w", passive_only = true } 
-  #  - {trigger: "v", replace: "w", passive_only = true }
-  #  - {trigger: "f", replace: "ph", passive_only = true }
-  #  - {trigger: "u", replace: "uwu", passive_only = true }
-  #  - {trigger: "i", replace: "w", passive_only = true }
-  #  - {trigger: "r", replace: "w", passive_only = true }
-  #  - {trigger: "o", replace: "owo", passve_only = true }
-  #  - {trigger: "U", replace: "UwU", passive_only = true }
-  #  - {trigger: "L", replace: "W", passive_only = true }
-  #  - {trigger: "V", replace: "W", passive_only = true }
-  #  - {trigger: "F", replace: "PH", passive_only = true }
-  #  - {trigger: "R", replace: "W", passive_only = true }
-  #  - {trigger: "L", replace: "W", passive_only = true }
-  #  - {trigger: "O", replace: "OwO", passve_only = true }
+#  - {trigger: "l", replace: "w", passive_only = true, propagate_case: true } 
+#  - {trigger: "v", replace: "w", passive_only = true, propagate_case: true}
+#  - {trigger: "f", replace: "ph", passive_only =true, propagate_case: true }
+#  - {trigger: "u", replace: "uwu", passive_only = true, propagate_case: true }
+#  - {trigger: "i", replace: "w", passive_only = true, propagate_case: true }
+#  - {trigger: "r", replace: "w", passive_only = true, propagate_case: true }
+#  - {trigger: "o", replace: "owo", passve_only = true, propagate_case: true }
+  
   - { trigger: ":bernie", image_path: "/home/legendofmiracles/Downloads/memes/bernie.png" }
   - { trigger: ":disturbed", image_path: "/home/legendofmiracles/Downloads/memes/disturbed.png" }
   - { trigger: ":doge", image_path: "/home/legendofmiracles/Downloads/memes/doge.png" }

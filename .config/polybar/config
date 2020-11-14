@@ -17,13 +17,13 @@
 ;==========================================================
 
 [colors]
-background = ${xrdb:background}
-;background = #222
+; background = ${xrdb:background}
+background = #00000
 background-alt = #444
-foreground = ${xrdb:foreground}
-;foreground = #dfdfdf
+; foreground = 
+foreground = #dfdfdf
 foreground-alt = ${xrdb:color7}
-primary = ${xrdb:color9}
+primary = #FF217C
 secondary = #0000ff
 alert = #ffff00
 

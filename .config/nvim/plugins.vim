@@ -23,7 +23,8 @@ Plug 'branwright1/salvation-vim'
   endif
 
   Plug 'tpope/vim-fugitive'
-
+  Plug 'puremourning/vimspector'
+  Plug  'rhysd/vim-grammarous'
   Plug 'preservim/nerdcommenter'
 
   Plug 'vim-airline/vim-airline-themes'

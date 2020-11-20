@@ -25,7 +25,7 @@ if has("autocmd")
   \ endif
 endif
 
-
+let g:vimspector_enable_mappings = 'HUMAN'
 
 " Vanilla VIM configuration ------------------------------------ {{{
 
@@ -185,7 +185,9 @@ let g:qs_lazy_highlight = 1
 
 
 nnoremap <Space>a :Files<CR>
-
+nnoremap <Space>dc :VimspectorReset<CR>
+nnoremap <Space>gc :GrammarousCheck<CR>
+nnoremap <Space>gw :set spell<CR>
 map <Leader>f <Plug>(easymotion-bd-f)
 map <Leader>s <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_smartcase = 1

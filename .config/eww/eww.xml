@@ -16,6 +16,9 @@
     <script-var name="games" interval="100000000000000s">
       /home/legendofmiracles/eww/games.sh item
     </script-var>
+    <script-var name="glava" interval="1s">
+      /home/legendofmiracles/eww/glava.sh 
+    </script-var>
   </variables>
 
   <windows>
@@ -32,7 +35,7 @@
       </widget>
     </window>
 
-  <windaaow name="test">
+  <window name="test">
       <size x="250" y="100"/>
       <pos x="0" y="0"/>
         <widget>
@@ -40,6 +43,16 @@
             asdf
           </combo-box-text>
         </widget>
-     </window>
+     </window> 
+
+  <window name="glava">
+    <size x="250" y="80"/>
+    <pos x="1920" y="1080"/>
+    <widget>
+      <label>
+        {{glava}}
+      </label>
+    </widget>
+  </window>
   </windows>
 </eww>

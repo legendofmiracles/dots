@@ -1,0 +1,13 @@
+{
+
+    "configurations": {
+        "launch": {
+            "adapter": "CodeLLDB",
+            "configuration": {
+                "request": "launch",
+                "program": "/home/legendofmiracles/programming/eww/target/debug/eww",
+                "args": ["open", "egs"]
+            }
+        }
+    }
+}

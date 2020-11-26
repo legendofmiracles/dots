@@ -8,7 +8,6 @@
       <literal content="{{games}}"/>
     </def>
   </definitions>
-
   <variables>
     <script-var name="list" interval="10000s">
       /home/legendofmiracles/eww/egs.sh
@@ -20,6 +19,11 @@
       /home/legendofmiracles/eww/glava.sh 
     </script-var>
   </variables>
+  
+  <includes>
+    <file path="./something.xml"/>
+    <file path="./saaomething.xml"/>
+  </includes>
 
   <windows>
     <window name="egs">

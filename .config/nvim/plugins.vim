@@ -26,6 +26,7 @@ Plug 'branwright1/salvation-vim'
   Plug 'puremourning/vimspector'
   Plug  'rhysd/vim-grammarous'
   Plug 'preservim/nerdcommenter'
+  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
   Plug 'vim-airline/vim-airline-themes'
   Plug 'vim-airline/vim-airline'

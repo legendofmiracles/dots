@@ -30,7 +30,7 @@ alert = #ffff00
 [bar/eDP1]
 ;monitor = eDP-1
 width = 100%
-height = 20
+height = 15
 ;offset-x = 1%
 ;offset-y = 1%
 ;radius = 15.5

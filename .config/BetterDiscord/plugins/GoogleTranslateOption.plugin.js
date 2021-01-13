@@ -6,6 +6,7 @@
  * @patreon https://www.patreon.com/MircoWittrien
  * @website https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/GoogleTranslateOption
  * @source https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/GoogleTranslateOption/GoogleTranslateOption.plugin.js
+ * @updateUrl https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/GoogleTranslateOption/GoogleTranslateOption.plugin.js
  */
 
 module.exports = (_ => {
@@ -13,13 +14,8 @@ module.exports = (_ => {
 		"info": {
 			"name": "GoogleTranslateOption",
 			"author": "DevilBro",
-			"version": "2.1.1",
+			"version": "2.1.3",
 			"description": "Add a Google Translate option to your context menu, which shows a preview of the translated text and on click will open the selected text in Google Translate. Also adds a translation button to your textareas, which will automatically translate the text for you before it is being send"
-		},
-		"changeLog": {
-			"fixed": {
-				"Crashes": "No longer causes crashes"
-			}
 		}
 	};
 	
@@ -30,7 +26,7 @@ module.exports = (_ => {
 		getDescription () {return config.info.description;}
 		
 		load() {
-			if (!window.BDFDB_Global || !Array.isArray(window.BDFDB_Global.pluginQueue)) window.BDFDB_Global = Object.assign({}, window.BDFDB_Global, {pluginQueue:[]});
+			if (!window.BDFDB_Global || !Array.isArray(window.BDFDB_Global.pluginQueue)) window.BDFDB_Global = Object.assign({}, window.BDFDB_Global, {pluginQueue: []});
 			if (!window.BDFDB_Global.downloadModal) {
 				window.BDFDB_Global.downloadModal = true;
 				BdApi.showConfirmationModal("Library Missing", `The library plugin needed for ${config.info.name} is missing. Please click "Download Now" to install it.`, {
@@ -50,6 +46,17 @@ module.exports = (_ => {
 		}
 		start() {this.load();}
 		stop() {}
+		getSettingsPanel() {
+			let template = document.createElement("template");
+			template.innerHTML = `<div style="color: var(--header-primary); font-size: 16px; font-weight: 300; white-space: pre; line-height: 22px;">The library plugin needed for ${config.info.name} is missing.\nPlease click <a style="font-weight: 500;">Download Now</a> to install it.</div>`;
+			template.content.firstElementChild.querySelector("a").addEventListener("click", _ => {
+				require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js", (e, r, b) => {
+					if (!e && b && b.indexOf(`* @name BDFDB`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => {});
+					else BdApi.alert("Error", "Could not download BDFDB library plugin, try again some time later.");
+				});
+			});
+			return template.content.firstElementChild;
+		}
 	} : (([Plugin, BDFDB]) => {
 		const translateIconGeneral = `<svg x="0" y="0" aria-hidden="false" width="22" height="22" viewBox="0 -1 24 24" fill="currentColor"><mask/><g mask="url(#translateIconMask)"><path d="M 19.794, 3.299 H 9.765 L 8.797, 0 h -6.598 C 0.99, 0, 0, 0.99, 0, 2.199 V 16.495 c 0, 1.21, 0.99, 2.199, 2.199, 2.199 H 9.897 l 1.1, 3.299 H 19.794 c 1.21, 0, 2.199 -0.99, 2.199 -2.199 V 5.498 C 21.993, 4.289, 21.003, 3.299, 19.794, 3.299 z M 5.68, 13.839 c -2.48, 0 -4.492 -2.018 -4.492 -4.492 s 2.018 -4.492, 4.492 -4.492 c 1.144, 0, 2.183, 0.407, 3.008, 1.171 l 0.071, 0.071 l -1.342, 1.298 l -0.066 -0.06 c -0.313 -0.297 -0.858 -0.643 -1.671 -0.643 c -1.441, 0 -2.612, 1.193 -2.612, 2.661 c 0, 1.468, 1.171, 2.661, 2.612, 2.661 c 1.507, 0, 2.161 -0.962, 2.337 -1.606 h -2.43 v -1.704 h 4.344 l 0.016, 0.077 c 0.044, 0.231, 0.06, 0.434, 0.06, 0.665 C 10.001, 12.036, 8.225, 13.839, 5.68, 13.839 z M 11.739, 9.979 h 4.393 c 0, 0 -0.374, 1.446 -1.715, 3.008 c -0.588 -0.676 -0.995 -1.336 -1.254 -1.864 h -1.089 L 11.739, 9.979 z M 13.625, 13.839 l -0.588, 0.583 l -0.72 -2.452 C 12.685, 12.63, 13.13, 13.262, 13.625, 13.839 z M 20.893, 19.794 c 0, 0.605 -0.495, 1.1 -1.1, 1.1 H 12.096 l 2.199 -2.199 l -0.896 -3.041 l 1.012 -1.012 l 2.953, 2.953 l 0.803 -0.803 l -2.975 -2.953 c 0.99 -1.138, 1.759 -2.474, 2.106 -3.854 h 1.397 V 8.841 H 14.697 v -1.144 h -1.144 v 1.144 H 11.398 l -1.309 -4.443 H 19.794 c 0.605, 0, 1.1, 0.495, 1.1, 1.1 V 19.794 z"/></g><extra/></svg>`;
 		const translateIconMask = `<mask id="translateIconMask" fill="black"><path d="M 0 0 H 24 V 24 H 0 Z" fill="white"></path><path d="M24 12 H 12 V 24 H 24 Z" fill="black"></path></mask>`;
@@ -66,11 +73,11 @@ module.exports = (_ => {
 		
 		const googleLanguages = ["af","am","ar","az","be","bg","bn","bs","ca","ceb","co","cs","cy","da","de","el","en","eo","es","et","eu","fa","fi","fr","fy","ga","gd","gl","gu","ha","haw","hi","hmn","hr","ht","hu","hy","id","ig","is","it","iw","ja","jw","ka","kk","km","kn","ko","ku","ky","la","lb","lo","lt","lv","mg","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","no","ny","or","pa","pl","ps","pt","ro","ru","rw","sd","si","sk","sl","sm","sn","so","sq","sr","st","su","sv","sw","ta","te","tg","th","tk","tl","tr","tt","ug","uk","ur","uz","vi","xh","yi","yo","zh-CN","zu"];
 		const translationEngines = {
-			googleapi: 					{name:"GoogleApi",		auto:true,	funcName:"googleApiTranslate",		languages: googleLanguages},
-			google: 					{name:"Google",			auto:true,	funcName:"googleTranslate",			languages: googleLanguages},
-			itranslate: 				{name:"iTranslate",		auto:true,	funcName:"iTranslateTranslate",		languages: [...new Set(["af","ar","az","be","bg","bn","bs","ca","ceb","cs","cy","da","de","el","en","eo","es","et","eu","fa","fi","fil","fr","ga","gl","gu","ha","he","hi","hmn","hr","ht","hu","hy","id","ig","is","it","ja","jw","ka","kk","km","kn","ko","la","lo","lt","lv","mg","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","no","ny","pa","pl","pt-BR","pt-PT","ro","ru","si","sk","sl","so","sq","sr","st","su","sv","sw","ta","te","tg","th","tr","uk","ur","uz","vi","we","yi","yo","zh-CN","zh-TW","zu"].concat(googleLanguages))].sort()},
-			yandex: 					{name:"Yandex",			auto:true,	funcName:"yandexTranslate",			languages: ["af","am","ar","az","ba","be","bg","bn","bs","ca","ceb","cs","cy","da","de","el","en","eo","es","et","eu","fa","fi","fr","ga","gd","gl","gu","he","hi","hr","ht","hu","hy","id","is","it","ja","jv","ka","kk","km","kn","ko","ky","la","lb","lo","lt","lv","mg","mhr","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","no","pa","pap","pl","pt","ro","ru","si","sk","sl","sq","sr","su","sv","sw","ta","te","tg","th","tl","tr","tt","udm","uk","ur","uz","vi","xh","yi","zh"]},
-			papago: 					{name:"Papago",			auto:false,	funcName:"papagoTranslate",			languages: ["en","es","fr","id","ja","ko","th","vi","zh-CN","zh-TW"]}
+			googleapi: 					{name: "GoogleApi",		auto: true,	funcName: "googleApiTranslate",		languages: googleLanguages},
+			google: 					{name: "Google",			auto: true,	funcName: "googleTranslate",			languages: googleLanguages},
+			itranslate: 				{name: "iTranslate",		auto: true,	funcName: "iTranslateTranslate",		languages: [...new Set(["af","ar","az","be","bg","bn","bs","ca","ceb","cs","cy","da","de","el","en","eo","es","et","eu","fa","fi","fil","fr","ga","gl","gu","ha","he","hi","hmn","hr","ht","hu","hy","id","ig","is","it","ja","jw","ka","kk","km","kn","ko","la","lo","lt","lv","mg","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","no","ny","pa","pl","pt-BR","pt-PT","ro","ru","si","sk","sl","so","sq","sr","st","su","sv","sw","ta","te","tg","th","tr","uk","ur","uz","vi","we","yi","yo","zh-CN","zh-TW","zu"].concat(googleLanguages))].sort()},
+			yandex: 					{name: "Yandex",			auto: true,	funcName: "yandexTranslate",			languages: ["af","am","ar","az","ba","be","bg","bn","bs","ca","ceb","cs","cy","da","de","el","en","eo","es","et","eu","fa","fi","fr","ga","gd","gl","gu","he","hi","hr","ht","hu","hy","id","is","it","ja","jv","ka","kk","km","kn","ko","ky","la","lb","lo","lt","lv","mg","mhr","mi","mk","ml","mn","mr","ms","mt","my","ne","nl","no","pa","pap","pl","pt","ro","ru","si","sk","sl","sq","sr","su","sv","sw","ta","te","tg","th","tl","tr","tt","udm","uk","ur","uz","vi","xh","yi","zh"]},
+			papago: 					{name: "Papago",			auto: false,	funcName: "papagoTranslate",			languages: ["en","es","fr","id","ja","ko","th","vi","zh-CN","zh-TW"]}
 		};
 		
 		var languages, translating, isTranslating, translatedMessages, oldMessages;
@@ -86,21 +93,21 @@ module.exports = (_ => {
 				
 				this.defaults = {
 					settings: {
-						useChromium: 			{value:false,			description:"Use an inbuilt browser window instead of opening your default browser"},
-						addTranslateButton:		{value:true, 			description:"Add an translate button to the chatbar"},
-						sendOriginalMessage:	{value:false, 			description:"Send the original message together with the translation"}
+						useChromium: 			{value: false,			description: "Use an inbuilt browser window instead of opening your default browser"},
+						addTranslateButton:		{value: true, 			description: "Add an translate button to the chatbar"},
+						sendOriginalMessage:	{value: false, 			description: "Send the original message together with the translation"}
 					},
 					choices: {
-						inputContext:			{value:"auto", 			direction:"input",		place:"Context", 		description:"Input Language in received Messages:"},
-						outputContext:			{value:"$discord", 		direction:"output",		place:"Context", 		description:"Output Language in received Messages:"},
-						inputMessage:			{value:"auto", 			direction:"input",		place:"Message", 		description:"Input Language in sent Messages:"},
-						outputMessage:			{value:"$discord", 		direction:"output",		place:"Message", 		description:"Output Language in sent Messages:"}
+						inputContext:			{value: "auto", 			direction: "input",		place: "Context", 		description: "Input Language in received Messages: "},
+						outputContext:			{value: "$discord", 		direction: "output",		place: "Context", 		description: "Output Language in received Messages: "},
+						inputMessage:			{value: "auto", 			direction: "input",		place: "Message", 		description: "Input Language in sent Messages: "},
+						outputMessage:			{value: "$discord", 		direction: "output",		place: "Message", 		description: "Output Language in sent Messages: "}
 					},
 					exceptions: {
-						wordStart:				{value:["!"],			max:1,		description:"Words starting with any of these will be ignored"}
+						wordStart:				{value: ["!"],			max: 1,		description: "Words starting with any of these will be ignored"}
 					},
 					engines: {
-						translator:				{value:"googleapi", 	description:"Translation Engine:"}
+						translator:				{value: "googleapi", 	description: "Translation Engine: "}
 					}
 				};
 			
@@ -204,7 +211,7 @@ module.exports = (_ => {
 					let [children, index] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: ["pin", "unpin"]});
 					if (index == -1) [children, index] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: ["edit", "add-reaction", "quote"]});
 					children.splice(index > -1 ? index + 1 : 0, 0, BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
-						label: translated ? this.labels.context_messageuntranslateoption_text : this.labels.context_messagetranslateoption_text,
+						label: translated ? this.labels.context_messageuntranslateoption : this.labels.context_messagetranslateoption,
 						id: BDFDB.ContextMenuUtils.createItemId(this.name, translated ? "untranslate-message" : "translate-message"),
 						hint: hint && (_ => {
 							return BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.MenuItems.MenuHint, {
@@ -237,13 +244,13 @@ module.exports = (_ => {
 						children: BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 							id: BDFDB.ContextMenuUtils.createItemId(this.name, "search-translation"),
 							disabled: isTranslating,
-							label: this.labels.context_googletranslateoption_text,
+							label: this.labels.context_googletranslateoption,
 							persisting: true,
 							action: event => {
 								let item = BDFDB.DOMUtils.getParent(BDFDB.dotCN.menuitem, event.target);
 								if (item) {
 									let createTooltip = _ => {
-										BDFDB.TooltipUtils.create(item, `From ${foundInput.name}:\n${text}\n\nTo ${foundOutput.name}:\n${foundTranslation}`, {type:"right", selector:"googletranslate-tooltip"});
+										BDFDB.TooltipUtils.create(item, `From ${foundInput.name}:\n${text}\n\nTo ${foundOutput.name}:\n${foundTranslation}`, {type: "right", selector: "googletranslate-tooltip"});
 									};
 									if (foundTranslation && foundInput && foundOutput) {
 										if (document.querySelector(".googletranslate-tooltip")) {
@@ -273,7 +280,7 @@ module.exports = (_ => {
 					let translated = !!translatedMessages[e.instance.props.message.id];
 					let [children, index] = BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: ["pin", "unpin"]});
 					children.splice(index + 1, 0, BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
-						label: translated ? this.labels.context_messageuntranslateoption_text : this.labels.context_messagetranslateoption_text,
+						label: translated ? this.labels.context_messageuntranslateoption : this.labels.context_messagetranslateoption,
 						disabled: isTranslating,
 						id: BDFDB.ContextMenuUtils.createItemId(this.name, translated ? "untranslate-message" : "translate-message"),
 						icon: _ => {
@@ -293,7 +300,7 @@ module.exports = (_ => {
 					let translated = !!translatedMessages[e.instance.props.message.id];
 					e.returnvalue.props.children.unshift(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.TooltipContainer, {
 						key: translated ? "untranslate-message" : "translate-message",
-						text: translated ? this.labels.context_messageuntranslateoption_text : this.labels.context_messagetranslateoption_text,
+						text: translated ? this.labels.context_messageuntranslateoption : this.labels.context_messagetranslateoption,
 						children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Clickable, {
 							className: BDFDB.disCN.messagetoolbarbutton,
 							onClick: _ => {
@@ -333,7 +340,7 @@ module.exports = (_ => {
 				if (settings.addTranslateButton) {
 					let editor = BDFDB.ReactUtils.findChild(e.returnvalue, {name: "ChannelEditorContainer"});
 					if (editor && editor.props.type == BDFDB.DiscordConstants.TextareaTypes.NORMAL && !editor.props.disabled) {
-						let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props:[["className", BDFDB.disCN.textareapickerbuttons]]});
+						let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {props: [["className", BDFDB.disCN.textareapickerbuttons]]});
 						if (index > -1 && children[index].props && children[index].props.children) children[index].props.children.unshift(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.PopoutContainer, {
 							children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ChannelTextAreaButton, {
 								key: "translate-button",
@@ -341,7 +348,7 @@ module.exports = (_ => {
 								nativeClass: true,
 								iconSVG: translateIconGeneral
 							}),
-							width: 400,
+							width: 450,
 							padding: 10,
 							animation: BDFDB.LibraryComponents.PopoutContainer.Animation.SCALE,
 							position: BDFDB.LibraryComponents.PopoutContainer.Positions.TOP,
@@ -381,6 +388,17 @@ module.exports = (_ => {
 									}));
 								}
 								popoutelements = popoutelements.concat(this.createSelects(true));
+								popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsSaveItem, {
+									type: "Switch",
+									plugin: this,
+									keys: ["settings", "sendOriginalMessage"],
+									label: this.defaults.settings.sendOriginalMessage.description,
+									tag: BDFDB.LibraryComponents.FormComponents.FormTitle.Tags.H5,
+									value: settings.sendOriginalMessage,
+									onChange: value => {
+										settings.sendOriginalMessage = value;
+									}
+								}));
 								popoutelements.push(BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.SettingsItem, {
 									type: "Switch",
 									label: "Translate your Messages before sending",
@@ -432,7 +450,7 @@ module.exports = (_ => {
 						tooltipConfig: {style: "max-width: 400px"},
 						children: BDFDB.ReactUtils.createElement("time", {
 							className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.messageedited, BDFDB.disCN._googletranslateoptiontranslated),
-							children: `(${this.labels.translated_watermark_text})`
+							children: `(${this.labels.translated_watermark})`
 						})
 					}));
 				}
@@ -453,7 +471,7 @@ module.exports = (_ => {
 								tooltipConfig: {style: "max-width: 400px"},
 								children: BDFDB.ReactUtils.createElement("time", {
 									className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.messageedited, BDFDB.disCN._googletranslateoptiontranslated),
-									children: `(${this.labels.translated_watermark_text})`
+									children: `(${this.labels.translated_watermark})`
 								})
 							}));
 						}
@@ -484,7 +502,7 @@ module.exports = (_ => {
 								choices["output" + place] = input;
 								BDFDB.DataUtils.save(choices, this, "choices");
 								
-								for (let selectIns of BDFDB.ReactUtils.findOwner(BDFDB.ReactUtils.findOwner(e._targetInst, {name:["BDFDB_Popout", "BDFDB_SettingsPanel"], up:true}), {name:"BDFDB_Select", all:true, noCopies:true})) if (selectIns && selectIns.props && selectIns.props.id && this.defaults.choices[selectIns.props.id] && this.defaults.choices[selectIns.props.id].place == place) {
+								for (let selectIns of BDFDB.ReactUtils.findOwner(BDFDB.ReactUtils.findOwner(e._targetInst, {name: ["BDFDB_Popout", "BDFDB_SettingsPanel"], up: true}), {name: "BDFDB_Select", all: true, noCopies: true})) if (selectIns && selectIns.props && selectIns.props.id && this.defaults.choices[selectIns.props.id] && this.defaults.choices[selectIns.props.id].place == place) {
 									selectIns.props.value = this.defaults.choices[selectIns.props.id].direction == "input" ? output : input;
 									BDFDB.ReactUtils.forceUpdate(selectIns);
 								}
@@ -500,7 +518,7 @@ module.exports = (_ => {
 							menuPlacement: inPopout ? BDFDB.LibraryComponents.Select.MenuPlacements.TOP : BDFDB.LibraryComponents.Select.MenuPlacements.BOTTOM,
 							value: this.getLanguageChoice(key),
 							id: key,
-							options: BDFDB.ObjectUtils.toArray(BDFDB.ObjectUtils.map(isOutput ? BDFDB.ObjectUtils.filter(languages, lang => lang.id != "auto") : languages, (lang, id) => {return {value:id, label:this.getLanguageName(lang)}})),
+							options: BDFDB.ObjectUtils.toArray(BDFDB.ObjectUtils.map(isOutput ? BDFDB.ObjectUtils.filter(languages, lang => lang.id != "auto") : languages, (lang, id) => {return {value: id, label: this.getLanguageName(lang)}})),
 							searchable: true,
 							optionRenderer: lang => {
 								return languages[lang.value] ? BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Flex, {
@@ -539,13 +557,13 @@ module.exports = (_ => {
 						menuPlacement: inPopout ? BDFDB.LibraryComponents.Select.MenuPlacements.TOP : BDFDB.LibraryComponents.Select.MenuPlacements.BOTTOM,
 						value: engines[key],
 						id: key,
-						options: Object.keys(translationEngines).map(engineKey => {return {value:engineKey, label:translationEngines[engineKey].name}}),
+						options: Object.keys(translationEngines).map(engineKey => {return {value: engineKey, label: translationEngines[engineKey].name}}),
 						searchable: true,
 						onChange: (engine, instance) => {
 							engines[key] = engine.value;
 							BDFDB.DataUtils.save(engines, this, "engines");
 							this.setLanguages();
-							let popoutInstance = BDFDB.ReactUtils.findOwner(instance, {name: "BDFDB_PopoutContainer", up:true});
+							let popoutInstance = BDFDB.ReactUtils.findOwner(instance, {name: "BDFDB_PopoutContainer", up: true});
 							if (popoutInstance) {
 								popoutInstance.close();
 								popoutInstance.handleClick();
@@ -633,20 +651,20 @@ module.exports = (_ => {
 				let [newText, excepts, translate] = this.removeExceptions(text.trim(), type);
 				let input = Object.assign({}, languages[this.getLanguageChoice("input", type)]);
 				let output = Object.assign({}, languages[this.getLanguageChoice("output", type)]);
-				if (translate) {
+				if (translate && input.id != output.id) {
 					let timer = 0;
-					toast = BDFDB.NotificationUtils.toast("Translating. Please wait", {timeout:0});
+					toast = BDFDB.NotificationUtils.toast("Translating. Please wait", {timeout: 0});
 					toast.interval = BDFDB.TimeUtils.interval(_ => {
 						if (timer++ > 40) {
 							finishTranslation("");
-							BDFDB.NotificationUtils.toast("Failed to translate text. Try another Translate Engine.", {type:"error"});
+							BDFDB.NotificationUtils.toast("Failed to translate text. Try another Translate Engine.", {type: "error"});
 						}
 						else toast.textContent = toast.textContent.indexOf(".....") > -1 ? "Translating. Please wait" : toast.textContent + ".";
 					}, 500);
-					let specialcase = this.checkForSpecialCase(newText, input);
-					if (specialcase) {
-						input.name = specialcase.name;
-						switch (specialcase.id) {
+					let specialCase = this.checkForSpecialCase(newText, input);
+					if (specialCase) {
+						input.name = specialCase.name;
+						switch (specialCase.id) {
 							case "binary": newText = this.binary2string(newText); break;
 							case "braille": newText = this.braille2string(newText); break;
 							case "morse": newText = this.morse2string(newText); break;
@@ -663,7 +681,7 @@ module.exports = (_ => {
 					else {
 						if (translationEngines[engines.translator] && typeof this[translationEngines[engines.translator].funcName] == "function") {
 							isTranslating = true;
-							this[translationEngines[engines.translator].funcName].apply(this, [{input, output, text:newText, specialcase, engine:translationEngines[engines.translator]}, finishTranslation]);
+							this[translationEngines[engines.translator].funcName].apply(this, [{input, output, text: newText, specialCase, engine: translationEngines[engines.translator]}, finishTranslation]);
 						}
 						else finishTranslation();
 					}
@@ -676,8 +694,8 @@ module.exports = (_ => {
 					onLoad: _ => {
 						googleTranslateWindow.executeJavaScriptSafe(`
 							require("electron").ipcRenderer.sendTo(${BDFDB.LibraryRequires.electron.remote.getCurrentWindow().webContents.id}, "GTO-translation", [
-								(document.querySelector(".translation") || {}).innerText,
-								[(new RegExp("{code:'([^']*)',name:'" + [(new RegExp((window.source_language_detected || "").replace("%1$s", "([A-z]{2,})"), "g")).exec(document.body.innerHTML)].flat()[1] +"'}", "g")).exec(document.body.innerHTML)].flat(10)[1]
+								Array.from(document.querySelectorAll("[data-language-to-translate-into] span:not([class])")).map(n => n.innerText).join(""),
+								(document.querySelector("h2 ~ [lang]") || {}).lang
 							]);
 						`);
 					}
@@ -685,7 +703,7 @@ module.exports = (_ => {
 				BDFDB.WindowUtils.addListener(this, "GTO-translation", (event, messageData) => {
 					BDFDB.WindowUtils.close(googleTranslateWindow);
 					BDFDB.WindowUtils.removeListener(this, "GTO-translation");
-					if (!data.specialcase && messageData[1] && languages[messageData[1]]) {
+					if (!data.specialCase && messageData[1] && languages[messageData[1]]) {
 						data.input.name = languages[messageData[1]].name;
 						data.input.ownlang = languages[messageData[1]].ownlang;
 					}
@@ -698,7 +716,7 @@ module.exports = (_ => {
 					if (!error && result && response.statusCode == 200) {
 						try {
 							result = JSON.parse(result);
-							if (!data.specialcase && result.src && result.src && languages[result.src]) {
+							if (!data.specialCase && result.src && result.src && languages[result.src]) {
 								data.input.name = languages[result.src].name;
 								data.input.ownlang = languages[result.src].ownlang;
 							}
@@ -707,7 +725,8 @@ module.exports = (_ => {
 						catch (err) {callback("");}
 					}
 					else {
-						BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down or Request Limit per Hour is reached. Try another Translate Engine.", {type:"error"});
+						if (response.statusCode == 429) BDFDB_Global.NotificationUtils.toast("Failed to translate text. Request Limit per Hour is reached. Choose another Translate Engine.", {type: "error"});
+						else BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server might be down. Try another Translate Engine.", {type: "error"});
 						callback("");
 					}
 				});
@@ -734,7 +753,7 @@ module.exports = (_ => {
 						if (!error && response && response.statusCode == 200) {
 							try {
 								result = JSON.parse(result);
-								if (!data.specialcase && result.source && result.source.dialect && languages[result.source.dialect]) {
+								if (!data.specialCase && result.source && result.source.dialect && languages[result.source.dialect]) {
 									data.input.name = languages[result.source.dialect].name;
 									data.input.ownlang = languages[result.source.dialect].ownlang;
 								}
@@ -743,7 +762,7 @@ module.exports = (_ => {
 							catch (err) {callback("");}
 						}
 						else {
-							BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down or API-key outdated. Try another Translate Engine.", {type:"error"});
+							BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down or API-key outdated. Try another Translate Engine.", {type: "error"});
 							callback("");
 						}
 					});
@@ -763,14 +782,14 @@ module.exports = (_ => {
 			}
 			
 			yandexTranslate (data, callback) {
-				BDFDB.LibraryRequires.request(`https://translate.yandex.net/api/v1.5/tr/translate?key=trnsl.1.1.20191206T223907Z.52bd512eca953a5b.1ec123ce4dcab3ae859f312d27cdc8609ab280de&text=${encodeURIComponent(data.text)}&lang=${data.specialcase || data.input.id == "auto" ? data.output.id : (data.input.id + "-" + data.output.id)}&options=1`, (error, response, result) => {
+				BDFDB.LibraryRequires.request(`https://translate.yandex.net/api/v1.5/tr/translate?key=trnsl.1.1.20191206T223907Z.52bd512eca953a5b.1ec123ce4dcab3ae859f312d27cdc8609ab280de&text=${encodeURIComponent(data.text)}&lang=${data.specialCase || data.input.id == "auto" ? data.output.id : (data.input.id + "-" + data.output.id)}&options=1`, (error, response, result) => {
 					if (!error && result && response.statusCode == 200) {
 						result = BDFDB.DOMUtils.create(result);
 						let translation = result.querySelector("text");
 						let detected = result.querySelector("detected");
 						if (translation && detected) {
 							let detectedLang = detected.getAttribute("lang");
-							if (!data.specialcase && detectedLang && languages[detectedLang]) {
+							if (!data.specialCase && detectedLang && languages[detectedLang]) {
 								data.input.name = languages[detectedLang].name;
 								data.input.ownlang = languages[detectedLang].ownlang;
 							}
@@ -778,8 +797,12 @@ module.exports = (_ => {
 						}
 						else callback("");
 					}
+					if (result && result.indexOf('code="408"') > -1) {
+						BDFDB.NotificationUtils.toast("Failed to translate text. Monthly rate limit reached. Choose another Translate Engine", {type: "error"});
+						callback("");
+					}
 					else {
-						BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down or API-key outdated. Try another Translate Engine.", {type:"error"});
+						BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down or API-key outdated. Try another Translate Engine.", {type: "error"});
 						callback("");
 					}
 				});
@@ -807,7 +830,7 @@ module.exports = (_ => {
 						catch (err) {callback("");}
 					}
 					else {
-						BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down, daily limited reached or API-key outdated. Try another Translate Engine.", {type:"error"});
+						BDFDB.NotificationUtils.toast("Failed to translate text. Translation Server is down, daily limited reached or API-key outdated. Try another Translate Engine.", {type: "error"});
 						callback("");
 					}
 				});
@@ -866,7 +889,7 @@ module.exports = (_ => {
 						}
 					}
 				}
-				else BDFDB.NotificationUtils.toast("Invalid binary format. Only use 0s and 1s.", {type:"error"});
+				else BDFDB.NotificationUtils.toast("Invalid binary format. Only use 0s and 1s.", {type: "error"});
 				return string;
 			}
 
@@ -916,7 +939,7 @@ module.exports = (_ => {
 				else {
 					let usedExceptions = BDFDB.ArrayUtils.is(exceptions.wordStart) ? exceptions.wordStart : [];
 					string.split(" ").forEach(word => {
-						if (word.indexOf("<@!") == 0 || word.indexOf("<#") == 0 || word.indexOf(":") == 0 || word.indexOf("<:") == 0 || word.indexOf("<a:") == 0 || word.indexOf("@") == 0 || word.indexOf("#") == 0 || usedExceptions.some(n => word.indexOf(n) == 0 && word.length > 1)) {
+						if (word.indexOf("<@!") == 0 || word.indexOf("<#") == 0 || word.indexOf(":") == 0 || word.indexOf("<:") == 0 || word.indexOf("<a: ") == 0 || word.indexOf("@") == 0 || word.indexOf("#") == 0 || usedExceptions.some(n => word.indexOf(n) == 0 && word.length > 1)) {
 							newString.push(`[/////${count}]`);
 							excepts[count] = word;
 							count++;
@@ -938,194 +961,248 @@ module.exports = (_ => {
 
 			setLabelsByLanguage () {
 				switch (BDFDB.LanguageUtils.getLanguage().id) {
-					case "hr":		//croatian
+					case "bg":		// Bulgarian
 						return {
-							context_messagetranslateoption_text:	"Prijevod poruke",
-							context_messageuntranslateoption_text:	"Prijenos poruke",
-							context_googletranslateoption_text:		"Traži prijevod",
-							popout_translateoption_text:			"Prevesti",
-							popout_untranslateoption_text:			"Prevesti natrag",
-							translated_watermark_text:				"preveo"
+							context_googletranslateoption:		"Търсене превод",
+							context_messagetranslateoption:		"Превод на съобщението",
+							context_messageuntranslateoption:	"Превод на съобщението",
+							popout_translateoption:				"Превод",
+							popout_untranslateoption:			"Непревод",
+							translated_watermark:				"преведено"
 						};
-					case "da":		//danish
+					case "da":		// Danish
 						return {
-							context_messagetranslateoption_text:	"Oversæt Besked",
-							context_messageuntranslateoption_text:	"Oversæt Besked tilbage",
-							context_googletranslateoption_text:		"Søg oversættelse",
-							popout_translateoption_text:			"Oversætte",
-							popout_untranslateoption_text:			"Oversæt tilbage",
-							translated_watermark_text:				"oversat"
+							context_googletranslateoption:		"Søg oversættelse",
+							context_messagetranslateoption:		"Oversæt besked",
+							context_messageuntranslateoption:	"Ikke-oversat besked",
+							popout_translateoption:				"Oversætte",
+							popout_untranslateoption:			"Untranslate",
+							translated_watermark:				"oversat"
 						};
-					case "de":		//german
+					case "de":		// German
 						return {
-							context_messagetranslateoption_text:	"Nachricht übersetzen",
-							context_messageuntranslateoption_text:	"Nachricht unübersetzen",
-							context_googletranslateoption_text:		"Suche Übersetzung",
-							popout_translateoption_text:			"Übersetzen",
-							popout_untranslateoption_text:			"Unübersetzen",
-							translated_watermark_text:				"übersetzt"
+							context_googletranslateoption:		"Übersetzung suchen",
+							context_messagetranslateoption:		"Nachricht übersetzen",
+							context_messageuntranslateoption:	"Nachricht unübersetzen",
+							popout_translateoption:				"Übersetzen",
+							popout_untranslateoption:			"Unübersetzen",
+							translated_watermark:				"übersetzt"
 						};
-					case "es":		//spanish
+					case "el":		// Greek
 						return {
-							context_messagetranslateoption_text:	"Traducir mensaje",
-							context_messageuntranslateoption_text:	"Traducir mensaje de vuelta",
-							context_googletranslateoption_text:		"Buscar traducción",
-							popout_translateoption_text:			"Traducir",
-							popout_untranslateoption_text:			"Traducir de vuelta",
-							translated_watermark_text:				"traducido"
+							context_googletranslateoption:		"Αναζήτηση μετάφρασης",
+							context_messagetranslateoption:		"Μετάφραση μηνύματος",
+							context_messageuntranslateoption:	"Μη μετάφραση μηνύματος",
+							popout_translateoption:				"Μεταφράζω",
+							popout_untranslateoption:			"Μη μετάφραση",
+							translated_watermark:				"μεταφρασμένο"
 						};
-					case "fr":		//french
+					case "es":		// Spanish
 						return {
-							context_messagetranslateoption_text:	"Traduire le message",
-							context_messageuntranslateoption_text:	"Traduire le message en retour",
-							context_googletranslateoption_text:		"Rechercher une traduction",
-							popout_translateoption_text:			"Traduire",
-							popout_untranslateoption_text:			"Traduire en arrière",
-							translated_watermark_text:				"traduit"
+							context_googletranslateoption:		"Buscar traducción",
+							context_messagetranslateoption:		"Traducir mensaje",
+							context_messageuntranslateoption:	"Mensaje sin traducir",
+							popout_translateoption:				"Traducir",
+							popout_untranslateoption:			"No traducir",
+							translated_watermark:				"traducido"
 						};
-					case "it":		//italian
+					case "fi":		// Finnish
 						return {
-							context_messagetranslateoption_text:	"Tradurre il messaggio",
-							context_messageuntranslateoption_text:	"Tradurre il messaggio indietro",
-							context_googletranslateoption_text:		"Cerca la traduzione",
-							popout_translateoption_text:			"Traduci",
-							popout_untranslateoption_text:			"Traduci indietro",
-							translated_watermark_text:				"tradotto"
+							context_googletranslateoption:		"Hae käännöstä",
+							context_messagetranslateoption:		"Käännä viesti",
+							context_messageuntranslateoption:	"Käännä viesti",
+							popout_translateoption:				"Kääntää",
+							popout_untranslateoption:			"Käännä",
+							translated_watermark:				"käännetty"
 						};
-					case "nl":		//dutch
+					case "fr":		// French
 						return {
-							context_messagetranslateoption_text:	"Vertaal bericht",
-							context_messageuntranslateoption_text:	"Vertaal bericht terug",
-							context_googletranslateoption_text:		"Zoek vertaling",
-							popout_translateoption_text:			"Vertaal",
-							popout_untranslateoption_text:			"Vertaal terug",
-							translated_watermark_text:				"vertaalde"
+							context_googletranslateoption:		"Recherche de traduction",
+							context_messagetranslateoption:		"Traduire le message",
+							context_messageuntranslateoption:	"Message non traduit",
+							popout_translateoption:				"Traduire",
+							popout_untranslateoption:			"Non traduit",
+							translated_watermark:				"traduit"
 						};
-					case "no":		//norwegian
+					case "hr":		// Croatian
 						return {
-							context_messagetranslateoption_text:	"Oversett melding",
-							context_messageuntranslateoption_text:	"Oversett melding tilbake",
-							context_googletranslateoption_text:		"Søk oversettelse",
-							popout_translateoption_text:			"Oversett",
-							popout_untranslateoption_text:			"Oversett tilbake",
-							translated_watermark_text:				"oversatt"
+							context_googletranslateoption:		"Pretraži prijevod",
+							context_messagetranslateoption:		"Prevedi poruku",
+							context_messageuntranslateoption:	"Prevedi poruku",
+							popout_translateoption:				"Prevedi",
+							popout_untranslateoption:			"Neprevedi",
+							translated_watermark:				"prevedeno"
 						};
-					case "pl":		//polish
+					case "hu":		// Hungarian
 						return {
-							context_messagetranslateoption_text:	"Przetłumacz wiadomość",
-							context_messageuntranslateoption_text:	"Przetłumacz wiadomość z powrotem",
-							context_googletranslateoption_text:		"Wyszukaj tłumaczenie",
-							popout_translateoption_text:			"Przetłumacz",
-							popout_untranslateoption_text:			"Przetłumacz ponownie",
-							translated_watermark_text:				"przetłumaczony"
+							context_googletranslateoption:		"Keresés a fordításban",
+							context_messagetranslateoption:		"Üzenet lefordítása",
+							context_messageuntranslateoption:	"Az üzenet lefordítása",
+							popout_translateoption:				"fordít",
+							popout_untranslateoption:			"Fordítás le",
+							translated_watermark:				"lefordított"
 						};
-					case "pt-BR":	//portuguese (brazil)
+					case "it":		// Italian
 						return {
-							context_messagetranslateoption_text:	"Traduzir mensagem",
-							context_messageuntranslateoption_text:	"Traduzir mensagem de volta",
-							context_googletranslateoption_text:		"Pesquisar tradução",
-							popout_translateoption_text:			"Traduzir",
-							popout_untranslateoption_text:			"Traduzir de volta",
-							translated_watermark_text:				"traduzido"
+							context_googletranslateoption:		"Cerca traduzione",
+							context_messagetranslateoption:		"Traduci messaggio",
+							context_messageuntranslateoption:	"Annulla traduzione messaggio",
+							popout_translateoption:				"Tradurre",
+							popout_untranslateoption:			"Non tradurre",
+							translated_watermark:				"tradotto"
 						};
-					case "fi":		//finnish
+					case "ja":		// Japanese
 						return {
-							context_messagetranslateoption_text:	"Käännä viesti",
-							context_messageuntranslateoption_text:	"Käännä viesti takaisin",
-							context_googletranslateoption_text:		"Etsi käännös",
-							popout_translateoption_text:			"Kääntää",
-							popout_untranslateoption_text:			"Käännä takaisin",
-							translated_watermark_text:				"käännetty"
+							context_googletranslateoption:		"翻訳を検索",
+							context_messagetranslateoption:		"メッセージの翻訳",
+							context_messageuntranslateoption:	"メッセージの翻訳解除",
+							popout_translateoption:				"翻訳する",
+							popout_untranslateoption:			"翻訳しない",
+							translated_watermark:				"翻訳済み"
 						};
-					case "sv":		//swedish
+					case "ko":		// Korean
 						return {
-							context_messagetranslateoption_text:	"Översätt meddelande",
-							context_messageuntranslateoption_text:	"Översätt meddelandet tillbaka",
-							context_googletranslateoption_text:		"Sök översättning",
-							popout_translateoption_text:			"Översätt",
-							popout_untranslateoption_text:			"Översätt tillbaka",
-							translated_watermark_text:				"översatt"
+							context_googletranslateoption:		"번역 검색",
+							context_messagetranslateoption:		"메시지 번역",
+							context_messageuntranslateoption:	"메시지 번역 취소",
+							popout_translateoption:				"옮기다",
+							popout_untranslateoption:			"번역 취소",
+							translated_watermark:				"번역"
 						};
-					case "tr":		//turkish
+					case "lt":		// Lithuanian
 						return {
-							context_messagetranslateoption_text:	"Mesajı çevir",
-							context_messageuntranslateoption_text:	"İletiyi geri çevir",
-							context_googletranslateoption_text:		"Arama tercümesi",
-							popout_translateoption_text:			"Çevirmek",
-							popout_untranslateoption_text:			"Geri çevir",
-							translated_watermark_text:				"tercüme"
+							context_googletranslateoption:		"Paieškos vertimas",
+							context_messagetranslateoption:		"Versti pranešimą",
+							context_messageuntranslateoption:	"Išversti pranešimą",
+							popout_translateoption:				"Išversti",
+							popout_untranslateoption:			"Neišversti",
+							translated_watermark:				"išverstas"
 						};
-					case "cs":		//czech
+					case "nl":		// Dutch
 						return {
-							context_messagetranslateoption_text:	"Přeposlat zprávu",
-							context_messageuntranslateoption_text:	"Přeposlat zprávu zpátky",
-							context_googletranslateoption_text:		"Hledat překlad",
-							popout_translateoption_text:			"Přeposlat",
-							popout_untranslateoption_text:			"Přeposlat zpět",
-							translated_watermark_text:				"přeloženo"
+							context_googletranslateoption:		"Zoek vertaling",
+							context_messagetranslateoption:		"Bericht vertalen",
+							context_messageuntranslateoption:	"Bericht onvertalen",
+							popout_translateoption:				"Vertalen",
+							popout_untranslateoption:			"Onvertalen",
+							translated_watermark:				"vertaald"
 						};
-					case "bg":		//bulgarian
+					case "no":		// Norwegian
 						return {
-							context_messagetranslateoption_text:	"Преведете на съобщението",
-							context_messageuntranslateoption_text:	"Преведете съобщението обратно",
-							context_googletranslateoption_text:		"Търсене на превод",
-							popout_translateoption_text:			"Превод",
-							popout_untranslateoption_text:			"Превод обратно",
-							translated_watermark_text:				"преведена"
+							context_googletranslateoption:		"Søk i oversettelse",
+							context_messagetranslateoption:		"Oversett melding",
+							context_messageuntranslateoption:	"Ikke oversett melding",
+							popout_translateoption:				"Oversette",
+							popout_untranslateoption:			"Ikke oversett",
+							translated_watermark:				"oversatt"
 						};
-					case "ru":		//russian
+					case "pl":		// Polish
 						return {
-							context_messagetranslateoption_text:	"Перевести сообщение",
-							context_messageuntranslateoption_text:	"Перевести сообщение обратно",
-							context_googletranslateoption_text:		"Поиск перевода",
-							popout_translateoption_text:			"Перевести",
-							popout_untranslateoption_text:			"Перевести обратно",
-							translated_watermark_text:				"переведенный"
+							context_googletranslateoption:		"Wyszukaj tłumaczenie",
+							context_messagetranslateoption:		"Przetłumacz wiadomość",
+							context_messageuntranslateoption:	"Nieprzetłumacz wiadomość",
+							popout_translateoption:				"Tłumaczyć",
+							popout_untranslateoption:			"Nie przetłumacz",
+							translated_watermark:				"przetłumaczony"
 						};
-					case "uk":		//ukrainian
+					case "pt-BR":	// Portuguese (Brazil)
 						return {
-							context_messagetranslateoption_text:	"Перекласти повідомлення",
-							context_messageuntranslateoption_text:	"Перекласти повідомлення назад",
-							context_googletranslateoption_text:		"Пошук перекладу",
-							popout_translateoption_text:			"Перекласти",
-							popout_untranslateoption_text:			"Перекласти назад",
-							translated_watermark_text:				"перекладений"
+							context_googletranslateoption:		"Tradução de pesquisa",
+							context_messagetranslateoption:		"Traduzir mensagem",
+							context_messageuntranslateoption:	"Mensagem não traduzida",
+							popout_translateoption:				"Traduzir",
+							popout_untranslateoption:			"Não traduzido",
+							translated_watermark:				"traduzido"
 						};
-					case "ja":		//japanese
+					case "ro":		// Romanian
 						return {
-							context_messagetranslateoption_text:	"メッセージを翻訳する",
-							context_messageuntranslateoption_text:	"メッセージを翻訳する",
-							context_googletranslateoption_text:		"翻訳の検索",
-							popout_translateoption_text:			"翻訳",
-							popout_untranslateoption_text:			"翻訳する",
-							translated_watermark_text:				"翻訳された"
+							context_googletranslateoption:		"Căutare traducere",
+							context_messagetranslateoption:		"Traduceți mesajul",
+							context_messageuntranslateoption:	"Untraduceți mesajul",
+							popout_translateoption:				"Traduceți",
+							popout_untranslateoption:			"Netradus",
+							translated_watermark:				"tradus"
 						};
-					case "zh-TW":	//chinese (traditional)
+					case "ru":		// Russian
 						return {
-							context_messagetranslateoption_text:	"翻譯消息",
-							context_messageuntranslateoption_text:	"翻譯消息",
-							context_googletranslateoption_text:		"搜索翻譯",
-							popout_translateoption_text:			"翻譯",
-							popout_untranslateoption_text:			"翻譯回來",
-							translated_watermark_text:				"翻譯"
+							context_googletranslateoption:		"Искать перевод",
+							context_messagetranslateoption:		"Перевести сообщение",
+							context_messageuntranslateoption:	"Непереведенное сообщение",
+							popout_translateoption:				"Переведите",
+							popout_untranslateoption:			"Неперевести",
+							translated_watermark:				"переведено"
 						};
-					case "ko":		//korean
+					case "sv":		// Swedish
 						return {
-							context_messagetranslateoption_text:	"메시지 번역",
-							context_messageuntranslateoption_text:	"메시지 번역 뒤로",
-							context_googletranslateoption_text:		"검색 번역",
-							popout_translateoption_text:			"다시",
-							popout_untranslateoption_text:			"다시 번역",
-							translated_watermark_text:				"번역 된"
+							context_googletranslateoption:		"Sök översättning",
+							context_messagetranslateoption:		"Översätt meddelande",
+							context_messageuntranslateoption:	"Untranslate meddelande",
+							popout_translateoption:				"Översätt",
+							popout_untranslateoption:			"Untranslate",
+							translated_watermark:				"översatt"
 						};
-					default:		//default: english
+					case "th":		// Thai
 						return {
-							context_messagetranslateoption_text:	"Translate Message",
-							context_messageuntranslateoption_text:	"Untranslate Message",
-							context_googletranslateoption_text:		"Search translation",
-							popout_translateoption_text:			"Translate",
-							popout_untranslateoption_text:			"Untranslate",
-							translated_watermark_text:				"translated"
+							context_googletranslateoption:		"ค้นหาคำแปล",
+							context_messagetranslateoption:		"แปลข้อความ",
+							context_messageuntranslateoption:	"ยกเลิกการแปลข้อความ",
+							popout_translateoption:				"แปลภาษา",
+							popout_untranslateoption:			"ไม่แปล",
+							translated_watermark:				"แปล"
+						};
+					case "tr":		// Turkish
+						return {
+							context_googletranslateoption:		"Çeviri ara",
+							context_messagetranslateoption:		"Mesajı Çevir",
+							context_messageuntranslateoption:	"Çeviriyi Kaldır Mesajı",
+							popout_translateoption:				"Çevirmek",
+							popout_untranslateoption:			"Çevirmeyi kaldır",
+							translated_watermark:				"tercüme"
+						};
+					case "uk":		// Ukrainian
+						return {
+							context_googletranslateoption:		"Пошук перекладу",
+							context_messagetranslateoption:		"Перекласти повідомлення",
+							context_messageuntranslateoption:	"Неперекладене повідомлення",
+							popout_translateoption:				"Перекласти",
+							popout_untranslateoption:			"Неперекласти",
+							translated_watermark:				"переклав"
+						};
+					case "vi":		// Vietnamese
+						return {
+							context_googletranslateoption:		"Tìm kiếm bản dịch",
+							context_messagetranslateoption:		"Dịch tin nhắn",
+							context_messageuntranslateoption:	"Thư chưa dịch",
+							popout_translateoption:				"Phiên dịch",
+							popout_untranslateoption:			"Chưa dịch",
+							translated_watermark:				"đã dịch"
+						};
+					case "zh":		// Chinese
+						return {
+							context_googletranslateoption:		"搜索翻译",
+							context_messagetranslateoption:		"翻译讯息",
+							context_messageuntranslateoption:	"取消翻译邮件",
+							popout_translateoption:				"翻译",
+							popout_untranslateoption:			"取消翻译",
+							translated_watermark:				"已翻译"
+						};
+					case "zh-TW":	// Chinese (Traditional)
+						return {
+							context_googletranslateoption:		"搜索翻譯",
+							context_messagetranslateoption:		"翻譯訊息",
+							context_messageuntranslateoption:	"取消翻譯郵件",
+							popout_translateoption:				"翻譯",
+							popout_untranslateoption:			"取消翻譯",
+							translated_watermark:				"已翻譯"
+						};
+					default:		// English
+						return {
+							context_googletranslateoption:		"Search translation",
+							context_messagetranslateoption:		"Translate Message",
+							context_messageuntranslateoption:	"Untranslate Message",
+							popout_translateoption:				"Translate",
+							popout_untranslateoption:			"Untranslate",
+							translated_watermark:				"translated"
 						};
 				}
 			}

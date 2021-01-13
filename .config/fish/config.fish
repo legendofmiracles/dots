@@ -5,8 +5,8 @@ if status is-interactive
 	# cowsay -f tux "In a world without walls, who needs windows or gates?"| lolcat
 	printf "Log in time: "
 	date
-	fish_vi_key_bindings
-	fish_vi_cursor
+	#	fish_vi_key_bindings
+	#fish_vi_cursor
 end
 
 bind -k ppage 'xdotool key Up; sleep 0.1; xdotool keydown Escape key 0; sleep 0.1; xdotool keyup control; xdotool type "sudo "'

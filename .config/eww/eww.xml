@@ -21,7 +21,7 @@
   </variables>
   
   <includes>
-    <file path="./something.xml"/>
+    <file path="/home/legendofmiracles/something.xml"/>
     <file path="./saaomething.xml"/>
   </includes>
 

@@ -6,6 +6,7 @@
 		"currentversion": "1.0.6"
 	},
 	"settings": {
+		"addOpenButton": true,
 		"onDemand": false
 	}
 }

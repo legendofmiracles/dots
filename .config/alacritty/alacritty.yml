@@ -90,18 +90,18 @@ env:
 # Font configuration
 font:
     normal:
-        family: CaskaydiaCove Nerd Font Mono
+        family: Cascadia Code
         style: Regular
     bold:
-        family: CaskaydiaCove Nerd Font Mono
+        family: Cascadia Code 
         style: Bold
   
     italic:
-        family: CaskaydiaCove Nerd Font Mono
+        family: Cascadia Code 
         style: Italic
   
     bold_italic:
-        family: CaskaydiaCove Nerd Font Mono
+        family: Cascadia Code 
         style: Bold Italic
     size: 8.0
 

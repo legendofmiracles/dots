@@ -18,7 +18,7 @@ font pango:Cascadia Code PL 10
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec sleep 6 && xss-lock --transfer-sleep-lock -- lock --nofork
 
-# Use pactl to adjust volume in PulseAudio.
+# Use pactl to adjust volume in PipeWire (also works with pulse).
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -172,10 +172,6 @@ mode "resize" {
 exec xrandr --output eDP1 --mode 1920x1200
 exec_always --no-startup-id ~/bin/polybar.sh
 exec_always --no-startup-id autotiling
-# exec sleep 5 && aw-qt
-exec sleep 5 && copyq
-# exec xrandr --output HDMI2 --auto --below eDP1
-#exec sleep 1 && ~/Videos/startupsound.sh
 #exec_always --no-startup-id ~/bin/picom_script.sh restart &
 exec sleep 3 && optimus-manager-qt &
 exec deadd-notification-center &
@@ -199,10 +195,11 @@ for_window [class="SPLASH"] floating enable
 new_window 1pixel
 
 bindsym $mod+e exec "emacs"
-bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"
+#bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"
 bindsym $mod+Tab exec "auswahl search"
 bindsym $mod+g exec eww open main_window
 #exec libinput-gestures-setup start
+exec flameshot
 exec xrandr --output eDP-1-1 --primary
 exec xrandr --output DP-1 --right-of eDP-1-1
 for_window [instance=origin.exe] floating enable

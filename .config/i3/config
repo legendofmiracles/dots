@@ -16,7 +16,7 @@ font pango:Cascadia Code PL 10
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec sleep 6 && xss-lock --transfer-sleep-lock -- lock --nofork
+# exec sleep 6 && xss-lock --transfer-sleep-lock -- lock --nofork
 
 # Use pactl to adjust volume in PipeWire (also works with pulse).
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -188,6 +188,7 @@ set $gamingMode "gaming_mode"
 # splash config       
 for_window [class="SPLASH"] border none
 for_window [class="SPLASH"] floating enable
+for_window [class="Conky"] border none
 
 
 # no titlebar
@@ -203,4 +204,3 @@ exec flameshot
 exec xrandr --output eDP-1-1 --primary
 exec xrandr --output DP-1 --right-of eDP-1-1
 for_window [instance=origin.exe] floating enable
-

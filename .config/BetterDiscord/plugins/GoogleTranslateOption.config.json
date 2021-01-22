@@ -14,6 +14,11 @@
 	"engines": {
 		"translator": "googleapi"
 	},
+	"exceptions": {
+		"wordStart": [
+			"!"
+		]
+	},
 	"settings": {
 		"addTranslateButton": true,
 		"sendOriginalMessage": false,

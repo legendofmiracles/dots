@@ -1,2 +1,2 @@
 #!/bin/bash
-rofi -modi combi -combi-modi "drun,run,window" -font "Cascadia Code PL 10" -show combi  -theme flamingo
+rofi -modi combi -combi-modi "drun,run,window" -font "Cascadia Code PL 10" -show combi

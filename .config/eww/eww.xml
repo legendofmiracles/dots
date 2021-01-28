@@ -18,11 +18,13 @@
     <script-var name="glava" interval="1s">
       /home/legendofmiracles/eww/glava.sh 
     </script-var>
+    <script-var name="date">
+    echo wtf is this shit
+    </script-var>
   </variables>
   
   <includes>
-    <file path="/home/legendofmiracles/something.xml"/>
-    <file path="./saaomething.xml"/>
+    <file path="test.xml"/>
   </includes>
 
   <windows>
@@ -44,7 +46,7 @@
       <pos x="0" y="0"/>
         <widget>
           <combo-box-text items="[hello\,bye,asdf,poiuytrew, lolsu]" onchange="notify-send {}">
-            asdf
+              {{date}}
           </combo-box-text>
         </widget>
      </window> 

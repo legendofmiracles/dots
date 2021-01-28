@@ -170,11 +170,11 @@ mode "resize" {
 
 
 exec xrandr --output eDP1 --mode 1920x1200
-exec_always --no-startup-id ~/bin/polybar.sh
-exec_always --no-startup-id autotiling
+# exec_always --no-startup-id ~/bin/polybar.sh
+# exec_always --no-startup-id autotiling
 #exec_always --no-startup-id ~/bin/picom_script.sh restart &
-exec sleep 3 && optimus-manager-qt &
-exec deadd-notification-center &
+# exec sleep 3 && optimus-manager-qt &
+# exec deadd-notification-center &
 # class                 border  backgr. text    indicator child_border
 client.focused          #ff217c #ff217c #fdfbf7 #2e9ef4   #ff217c 
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
@@ -197,10 +197,6 @@ new_window 1pixel
 
 bindsym $mod+e exec "emacs"
 #bindsym $mod+m exec "~/.config/rofi/scripts/mpd.sh"
-bindsym $mod+Tab exec "auswahl search"
 bindsym $mod+g exec eww open main_window
 #exec libinput-gestures-setup start
-exec flameshot
-exec xrandr --output eDP-1-1 --primary
-exec xrandr --output DP-1 --right-of eDP-1-1
 for_window [instance=origin.exe] floating enable

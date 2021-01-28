@@ -4,41 +4,19 @@
   "coc.preferences.hoverTarget": "float",
   "coc.preferences.echodocSupport": true,
   "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+      "filetypes": ["haskell", "lhaskell"]
+    }
+  },
+  "languageserver": {
     "kotlin": {
       "command": "kotlin-language-server",
       "filetypes": ["kotlin"]
     },
-    "nix": {
-      "command": "/home/leon/coding/projects/rnix-lsp/target/debug/rnix-lsp",
-      "filetypes": ["nix"]
-    },
 
-    /*"haskell": {
-      "command": "ghcide",
-      "args": ["--lsp"],
-      "rootPatterns": [".stack.yaml", ".hie-bios", "BUILD.bazel", "cabal.config", "package.yaml"],
-      "filetypes": ["hs", "lhs", "haskell"]
-    },*/
-    "haskell": {
-      "command": "hie-wrapper",
-      "args": ["--lsp"],
-      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml"],
-      "filetypes": ["hs", "lhs", "haskell"],
-      "initializationOptions": {
-        "languageServerHaskell": {}
-      }
-    },
-    /*"haskell": {
-      "command": "/home/leon/Downloads/haskell-language-server-Linux-8.8.2",
-      "args": ["--lsp"],
-      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml"],
-      "filetypes": ["hs", "lhs", "haskell"],
-      "initializationOptions": {
-        "languageServerHaskell": {
-          "formattingProvider": "brittany"
-        }
-      }
-    },*/
     "elmLS": {
       "command": "elm-language-server",
       "filetypes": ["elm"],

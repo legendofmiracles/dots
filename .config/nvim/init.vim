@@ -24,6 +24,11 @@ if has("autocmd")
   \   exe "normal g'\"" |
   \ endif
 endif
+" Disable Arrow keys in Normal mode
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
@@ -258,3 +263,4 @@ inoremap <Tab>k <space><C-o>:call RebindShit("::")<CR>
 
 
 nnoremap ö a
+" au BufWrite * :Format

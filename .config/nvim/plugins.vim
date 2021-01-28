@@ -9,8 +9,12 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'branwright1/salvation-vim'
 
+" Snippets are separated from the engine. Add this if you want them:
+
   Plug 'tpope/vim-repeat'
 
+  Plug 'mhinz/vim-startify'
+  Plug 'sophacles/vim-processing'
   Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
   "Plug 'osyo-manga/vim-over', {'on': 'OverCommandLine'} " Substitute preview
 

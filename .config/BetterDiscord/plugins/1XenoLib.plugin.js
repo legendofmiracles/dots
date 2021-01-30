@@ -2,24 +2,24 @@
 /*@cc_on
 @if (@_jscript)
 
-  // Offer to self-install for clueless users that try to run this directly.
-  var shell = WScript.CreateObject('WScript.Shell');
-  var fs = new ActiveXObject('Scripting.FileSystemObject');
-  var pathPlugins = shell.ExpandEnvironmentStrings('%APPDATA%\\BetterDiscord\\plugins');
-  var pathSelf = WScript.ScriptFullName;
-  // Put the user at ease by addressing them in the first person
-  shell.Popup('It looks like you\'ve mistakenly tried to run me directly. \n(Don\'t do that!)', 0, 'I\'m a plugin for BetterDiscord', 0x30);
-  if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
-    shell.Popup('I\'m in the correct folder already.', 0, 'I\'m already installed', 0x40);
-  } else if (!fs.FolderExists(pathPlugins)) {
-    shell.Popup('I can\'t find the BetterDiscord plugins folder.\nAre you sure it\'s even installed?', 0, 'Can\'t install myself', 0x10);
-  } else if (shell.Popup('Should I copy myself to BetterDiscord\'s plugins folder for you?', 0, 'Do you need some help?', 0x34) === 6) {
-    fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
-    // Show the user where to put plugins in the future
-    shell.Exec('explorer ' + pathPlugins);
-    shell.Popup('I\'m installed!', 0, 'Successfully installed', 0x40);
-  }
-  WScript.Quit();
+   // Offer to self-install for clueless users that try to run this directly.
+   var shell = WScript.CreateObject('WScript.Shell');
+   var fs = new ActiveXObject('Scripting.FileSystemObject');
+   var pathPlugins = shell.ExpandEnvironmentStrings('%APPDATA%\\BetterDiscord\\plugins');
+   var pathSelf = WScript.ScriptFullName;
+   // Put the user at ease by addressing them in the first person
+   shell.Popup('It looks like you\'ve mistakenly tried to run me directly. \n(Don\'t do that!)', 0, 'I\'m a plugin for BetterDiscord', 0x30);
+   if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
+      shell.Popup('I\'m in the correct folder already.', 0, 'I\'m already installed', 0x40);
+   } else if (!fs.FolderExists(pathPlugins)) {
+      shell.Popup('I can\'t find the BetterDiscord plugins folder.\nAre you sure it\'s even installed?', 0, 'Can\'t install myself', 0x10);
+   } else if (shell.Popup('Should I copy myself to BetterDiscord\'s plugins folder for you?', 0, 'Do you need some help?', 0x34) === 6) {
+      fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
+      // Show the user where to put plugins in the future
+      shell.Exec('explorer ' + pathPlugins);
+      shell.Popup('I\'m installed!', 0, 'Successfully installed', 0x40);
+   }
+   WScript.Quit();
 
 @else@*/
 /*
@@ -42,16 +42,16 @@ module.exports = (() => {
           twitter_username: ''
         }
       ],
-      version: '1.3.34',
+      version: '1.3.35',
       description: 'Simple library to complement plugins with shared code without lowering performance. Also adds needed buttons to some plugins.',
       github: 'https://github.com/1Lighty',
       github_raw: 'https://raw.githubusercontent.com/1Lighty/BetterDiscordPlugins/master/Plugins/1XenoLib.plugin.js'
     },
     changelog: [
       {
-        title: 'future proofing',
+        title: 'RIP BBD on Canary',
         type: 'fixed',
-        items: ['Implemented notifications proxy for Untitled client mod prealpha users.']
+        items: ['Implemented fixes that allow patches to work properly on canary using Powercord.']
       }
     ],
     defaultConfig: [
@@ -200,6 +200,16 @@ module.exports = (() => {
     XenoLib.getClass.__warns = {};
     XenoLib.getSingleClass.__warns = {};
 
+    const rendererFunctionClass = (() => {
+      try {
+        const topContext = require('electron').webFrame.top.context;
+        if (topContext === window) return null;
+        return topContext.Function
+      } catch {
+        return null;
+      }
+    })();
+    const originalFunctionClass = Function;
     XenoLib.createSmartPatcher = patcher => {
       const createPatcher = patcher => {
         return (moduleToPatch, functionName, callback, options = {}) => {
@@ -208,8 +218,15 @@ module.exports = (() => {
           } catch (_) {
             return Logger.error(`Failed to patch ${functionName}`);
           }
+          if (rendererFunctionClass && origDef && !(origDef instanceof originalFunctionClass) && origDef instanceof rendererFunctionClass) window.Function = rendererFunctionClass;
           const unpatches = [];
-          unpatches.push(patcher(moduleToPatch, functionName, callback, options));
+          try {
+            unpatches.push(patcher(moduleToPatch, functionName, callback, options) || DiscordConstants.NOOP);
+          } catch (err) {
+            throw err;
+          } finally {
+            if (rendererFunctionClass) window.Function = originalFunctionClass;
+          }
           try {
             if (origDef && origDef.__isBDFDBpatched && moduleToPatch.BDFDBpatch && typeof moduleToPatch.BDFDBpatch[functionName].originalMethod === 'function') {
               /* do NOT patch a patch by ZLIb, that'd be bad and cause double items in context menus */
@@ -238,164 +255,164 @@ module.exports = (() => {
     PluginUtilities.addStyle(
       'XenoLib-CSS',
       `
-      .xenoLib-color-picker .xenoLib-button {
-        width: 34px;
-        min-height: 38px;
-      }
-      .xenoLib-color-picker .xenoLib-button:hover {
-        width: 128px;
-      }
-      .xenoLib-color-picker .xenoLib-button .${XenoLib.getSingleClass('recording text')} {
-        opacity: 0;
-        transform: translate3d(200%,0,0);
-      }
-      .xenoLib-color-picker .xenoLib-button:hover .${XenoLib.getSingleClass('recording text')} {
-        opacity: 1;
-        transform: translateZ(0);
-      }
-      .xenoLib-button-icon {
-        left: 50%;
-        top: 50%;
-        position: absolute;
-        margin-left: -12px;
-        margin-top: -8px;
-        width: 24px;
-        height: 24px;
-        opacity: 1;
-        transform: translateZ(0);
-        transition: opacity .2s ease-in-out,transform .2s ease-in-out,-webkit-transform .2s ease-in-out;
-      }
-      .xenoLib-button-icon.xenoLib-revert > svg {
-        width: 24px;
-        height: 24px;
-      }
-      .xenoLib-button-icon.xenoLib-revert {
-        margin-top: -12px;
-      }
-      .xenoLib-button:hover .xenoLib-button-icon {
-        opacity: 0;
-        transform: translate3d(-200%,0,0);
-      }
-      .xenoLib-notifications {
-        position: absolute;
-        color: white;
-        width: 100%;
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-        z-index: 1000;
-        pointer-events: none;
-        font-size: 14px;
-      }
-      .xenoLib-notification {
-        min-width: 200px;
-        overflow: hidden;
-      }
-      .xenoLib-notification-content-wrapper {
-        padding: 22px 20px 0 20px;
-      }
-      .xenoLib-centering-bottomLeft .xenoLib-notification-content-wrapper:first-of-type, .xenoLib-centering-bottomMiddle .xenoLib-notification-content-wrapper:first-of-type, .xenoLib-centering-bottomRight .xenoLib-notification-content-wrapper:first-of-type {
-        padding: 0 20px 20px 20px;
-      }
-      .xenoLib-notification-content {
-        padding: 12px;
-        overflow: hidden;
-        background: #474747;
-        pointer-events: all;
-        position: relative;
-        width: 20vw;
-        white-space: break-spaces;
-        min-width: 330px;
-      }
-      .xenoLib-notification-loadbar {
-        position: absolute;
-        bottom: 0;
-        left: 0px;
-        width: auto;
-        background-image: linear-gradient(130deg,var(--grad-one),var(--grad-two));
-        height: 5px;
-      }
-      .xenoLib-notification-loadbar-user {
-        animation: fade-loadbar-animation 1.5s ease-in-out infinite;
-      }
-      @keyframes fade-loadbar-animation {
-        0% {
-            filter: brightness(75%)
-        }
-        50% {
-            filter: brightness(100%)
-        }
-        to {
-            filter: brightness(75%)
-        }
-      }
-      .xenoLib-notification-loadbar-striped:before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        background: linear-gradient(
-          -20deg,
-          transparent 35%,
-          var(--bar-color) 35%,
-          var(--bar-color) 70%,
-          transparent 70%
-        );
-        animation: shift 1s linear infinite;
-        background-size: 60px 100%;
-        box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.2),
-          inset 0 -2px 1px rgba(0, 0, 0, 0.2);
-      }
-      @keyframes shift {
-        to {
-          background-position: 60px 100%;
-        }
-      }
-      .xenoLib-notification-close {
-        float: right;
-        padding: 0;
-        height: unset;
-        opacity: .7;
-      }
-      .xenLib-notification-counter {
-        float: right;
-        margin-top: 2px;
-      }
-      .topMiddle-xenoLib {
-        top: 0;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .bottomMiddle-xenoLib {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .xenoLib-centering-topLeft, .xenoLib-centering-bottomLeft {
-        align-items: flex-start;
-      }
-      .xenoLib-centering-topMiddle, .xenoLib-centering-bottomMiddle {
-        align-items: center;
-      }
-      .xenoLib-centering-topRight, .xenoLib-centering-bottomRight {
-        align-items: flex-end;
-      }
-      .xenoLib-centering-bottomLeft, .xenoLib-centering-bottomMiddle, .xenoLib-centering-bottomRight {
-        flex-direction: column-reverse;
-        bottom: 0;
-      }
-      .XL-chl-p img{
-        width: unset !important;
-      }
-      .xenoLib-error-text {
-        padding-top: 5px;
-      }
-      `
+			.xenoLib-color-picker .xenoLib-button {
+				width: 34px;
+				min-height: 38px;
+			}
+			.xenoLib-color-picker .xenoLib-button:hover {
+				width: 128px;
+			}
+			.xenoLib-color-picker .xenoLib-button .${XenoLib.getSingleClass('recording text')} {
+				opacity: 0;
+				transform: translate3d(200%,0,0);
+			}
+			.xenoLib-color-picker .xenoLib-button:hover .${XenoLib.getSingleClass('recording text')} {
+				opacity: 1;
+				transform: translateZ(0);
+			}
+			.xenoLib-button-icon {
+				left: 50%;
+				top: 50%;
+				position: absolute;
+				margin-left: -12px;
+				margin-top: -8px;
+				width: 24px;
+				height: 24px;
+				opacity: 1;
+				transform: translateZ(0);
+				transition: opacity .2s ease-in-out,transform .2s ease-in-out,-webkit-transform .2s ease-in-out;
+			}
+			.xenoLib-button-icon.xenoLib-revert > svg {
+				width: 24px;
+				height: 24px;
+			}
+			.xenoLib-button-icon.xenoLib-revert {
+				margin-top: -12px;
+			}
+			.xenoLib-button:hover .xenoLib-button-icon {
+				opacity: 0;
+				transform: translate3d(-200%,0,0);
+			}
+			.xenoLib-notifications {
+				position: absolute;
+				color: white;
+				width: 100%;
+				min-height: 100%;
+				display: flex;
+				flex-direction: column;
+				z-index: 1000;
+				pointer-events: none;
+				font-size: 14px;
+			}
+			.xenoLib-notification {
+				min-width: 200px;
+				overflow: hidden;
+			}
+			.xenoLib-notification-content-wrapper {
+				padding: 22px 20px 0 20px;
+			}
+			.xenoLib-centering-bottomLeft .xenoLib-notification-content-wrapper:first-of-type, .xenoLib-centering-bottomMiddle .xenoLib-notification-content-wrapper:first-of-type, .xenoLib-centering-bottomRight .xenoLib-notification-content-wrapper:first-of-type {
+				padding: 0 20px 20px 20px;
+			}
+			.xenoLib-notification-content {
+				padding: 12px;
+				overflow: hidden;
+				background: #474747;
+				pointer-events: all;
+				position: relative;
+				width: 20vw;
+				white-space: break-spaces;
+				min-width: 330px;
+			}
+			.xenoLib-notification-loadbar {
+				position: absolute;
+				bottom: 0;
+				left: 0px;
+				width: auto;
+				background-image: linear-gradient(130deg,var(--grad-one),var(--grad-two));
+				height: 5px;
+			}
+			.xenoLib-notification-loadbar-user {
+				animation: fade-loadbar-animation 1.5s ease-in-out infinite;
+			}
+			@keyframes fade-loadbar-animation {
+				0% {
+						filter: brightness(75%)
+				}
+				50% {
+						filter: brightness(100%)
+				}
+				to {
+						filter: brightness(75%)
+				}
+			}
+			.xenoLib-notification-loadbar-striped:before {
+				content: "";
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				border-radius: 5px;
+				background: linear-gradient(
+					-20deg,
+					transparent 35%,
+					var(--bar-color) 35%,
+					var(--bar-color) 70%,
+					transparent 70%
+				);
+				animation: shift 1s linear infinite;
+				background-size: 60px 100%;
+				box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.2),
+					inset 0 -2px 1px rgba(0, 0, 0, 0.2);
+			}
+			@keyframes shift {
+				to {
+					background-position: 60px 100%;
+				}
+			}
+			.xenoLib-notification-close {
+				float: right;
+				padding: 0;
+				height: unset;
+				opacity: .7;
+			}
+			.xenLib-notification-counter {
+				float: right;
+				margin-top: 2px;
+			}
+			.topMiddle-xenoLib {
+				top: 0;
+				left: 0;
+				right: 0;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.bottomMiddle-xenoLib {
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.xenoLib-centering-topLeft, .xenoLib-centering-bottomLeft {
+				align-items: flex-start;
+			}
+			.xenoLib-centering-topMiddle, .xenoLib-centering-bottomMiddle {
+				align-items: center;
+			}
+			.xenoLib-centering-topRight, .xenoLib-centering-bottomRight {
+				align-items: flex-end;
+			}
+			.xenoLib-centering-bottomLeft, .xenoLib-centering-bottomMiddle, .xenoLib-centering-bottomRight {
+				flex-direction: column-reverse;
+				bottom: 0;
+			}
+			.XL-chl-p img{
+				width: unset !important;
+			}
+			.xenoLib-error-text {
+				padding-top: 5px;
+			}
+			`
     );
 
     XenoLib.joinClassNames = WebpackModules.getModule(e => e.default && e.default.default);
@@ -473,6 +490,11 @@ module.exports = (() => {
     } catch (e) {
       Logger.stacktrace('Error getting Button component', e);
     }
+
+    const path = require('path');
+    const isBBDBeta = typeof window.BDModules !== 'undefined' && !window.require && typeof window.BetterDiscordConfig !== 'undefined' && path.normalize(__dirname).replace(/[\\\/]/g, '/').toLowerCase().indexOf('rd_bd/plugins') !== -1;
+    // why zere?
+    if (isBBDBeta) Object.assign(window, require('timers'));
 
     function patchAddonCardAnyway(manualPatch) {
       try {
@@ -642,7 +664,13 @@ module.exports = (() => {
     const MultiInputFirstClassname = XenoLib.getClass('multiInputFirst');
     const MultiInputFieldClassname = XenoLib.getClass('multiInputField');
     const ErrorMessageClassname = XenoLib.joinClassNames('xenoLib-error-text', XenoLib.getClass('errorMessage'), Utilities.getNestedProp(TextElement, 'Colors.ERROR'));
-    const ErrorClassname = XenoLib.getClass('input error');
+    let ErrorClassname = XenoLib.getClass('input error');
+
+    // sometimes we can't access it for some reason, works thru BBD beta's webpack tho /shrug
+    if (isBBDBeta) setImmediate(() => {
+      const inputClasses = require('webpack').getByProps('multiInputFirst');
+      ErrorClassname = inputClasses.error;
+    });
 
     try {
       const DelayedCall = WebpackModules.getByProps('DelayedCall').DelayedCall;

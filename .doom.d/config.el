@@ -71,8 +71,8 @@
 ;;      (mapcar 'delete-process (process-list))
 ;;      (sound-wav-play "/home/legendofmiracles/DOOM/doom_music.wav"))
 
-(require 'elcord)
-(elcord-mode)
+;; (require 'elcord)
+;; (elcord-mode)
 (define-coding-system-alias 'UTF-8 'utf-8)
 
 (use-package nyan-mode

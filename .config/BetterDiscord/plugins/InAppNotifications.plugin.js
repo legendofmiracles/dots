@@ -41,7 +41,7 @@ module.exports = (() => {
           twitter_username: ''
         }
       ],
-      version: '1.0.9',
+      version: '1.0.10',
       description: 'Show a notification in Discord when someone sends a message, just like on mobile.',
       github: 'https://github.com/1Lighty',
       github_raw: 'https://raw.githubusercontent.com/1Lighty/BetterDiscordPlugins/master/Plugins/InAppNotifications/InAppNotifications.plugin.js'
@@ -91,17 +91,19 @@ module.exports = (() => {
     ],
     changelog: [
       {
-        title: 'Fixed',
+        title: 'RIP BBD on Canary',
         type: 'fixed',
-        items: ['Fixed plugin not working from the great canary update plugin massacre.']
+        items: ['Implemented fixes that allow patches to work properly on canary using Powercord.']
       }
     ]
   };
 
   /* Build */
   const buildPlugin = ([Plugin, Api]) => {
-    const { ContextMenu, EmulatedTooltip, Toasts, Settings, Popouts, Modals, Utilities, WebpackModules, Filters, DiscordModules, ColorConverter, DOMTools, DiscordClasses, DiscordSelectors, ReactTools, ReactComponents, DiscordAPI, Logger, Patcher, PluginUpdater, PluginUtilities, DiscordClassModules, Structs } = Api;
+    const { ContextMenu, EmulatedTooltip, Toasts, Settings, Popouts, Modals, Utilities, WebpackModules, Filters, DiscordModules, ColorConverter, DOMTools, DiscordClasses, DiscordSelectors, ReactTools, ReactComponents, DiscordAPI, Logger, PluginUpdater, PluginUtilities, DiscordClassModules, Structs } = Api;
     const { React, ModalStack, ContextMenuActions, ContextMenuItem, ContextMenuItemsGroup, ReactDOM, GuildStore, UserStore, DiscordConstants, Dispatcher, GuildMemberStore, GuildActions, SwitchRow, EmojiUtils, RadioGroup, Permissions, FlexChild, PopoutOpener, Textbox, RelationshipStore, WindowInfo, UserSettingsStore, NavigationUtils, UserNameResolver, SelectedChannelStore } = DiscordModules;
+
+    const Patcher = XenoLib.createSmartPatcher(Api.Patcher);
 
     const ChannelStore = WebpackModules.getByProps('getChannel', 'getDMFromUserId');
 
@@ -168,6 +170,7 @@ module.exports = (() => {
         } catch (e) { }
       }
       onStart() {
+        if (window.Lightcord) XenoLib.Notifications.warning(`[${this.getName()}] Lightcord is an unofficial and unsafe client with stolen code that is falsely advertising that it is safe, Lightcord has allowed the spread of token loggers hidden within plugins redistributed by them, and these plugins are not made to work on it. Your account is very likely compromised by malicious people redistributing other peoples plugins, especially if you didn't download this plugin from [GitHub](https://github.com/1Lighty/BetterDiscordPlugins/edit/master/Plugins/MessageLoggerV2/MessageLoggerV2.plugin.js), you should change your password immediately. Consider using a trusted client mod like [BandagedBD](https://rauenzi.github.io/BetterDiscordApp/) or [Powercord](https://powercord.dev/) to avoid losing your account.`, { timeout: 0 });
         try {
           /* do not, under any circumstances, let this kill the plugin */
           const CUSTOM_RULES = XenoLib._.cloneDeep(WebpackModules.getByProps('RULES').RULES);
@@ -470,13 +473,11 @@ module.exports = (() => {
   let ZeresPluginLibraryOutdated = false;
   let XenoLibOutdated = false;
   try {
-    if (global.BdApi && 'function' == typeof BdApi.getPlugin) {
-      const i = (i, n) => ((i = i.split('.').map(i => parseInt(i))), (n = n.split('.').map(i => parseInt(i))), !!(n[0] > i[0]) || !!(n[0] == i[0] && n[1] > i[1]) || !!(n[0] == i[0] && n[1] == i[1] && n[2] > i[2])),
-        n = (n, e) => n && n._config && n._config.info && n._config.info.version && i(n._config.info.version, e),
-        e = BdApi.getPlugin('ZeresPluginLibrary'),
-        o = BdApi.getPlugin('XenoLib');
-      n(e, '1.2.23') && (ZeresPluginLibraryOutdated = !0), n(o, '1.3.26') && (XenoLibOutdated = !0);
-    }
+    const i = (i, n) => ((i = i.split('.').map(i => parseInt(i))), (n = n.split('.').map(i => parseInt(i))), !!(n[0] > i[0]) || !!(n[0] == i[0] && n[1] > i[1]) || !!(n[0] == i[0] && n[1] == i[1] && n[2] > i[2])),
+      n = (n, e) => n && n._config && n._config.info && n._config.info.version && i(n._config.info.version, e),
+      e = BdApi.Plugins.get('ZeresPluginLibrary'),
+      o = BdApi.Plugins.get('XenoLib');
+    n(e, '1.2.27') && (ZeresPluginLibraryOutdated = !0), n(o, '1.3.32') && (XenoLibOutdated = !0);
   } catch (i) {
     console.error('Error checking if libraries are out of date', i);
   }

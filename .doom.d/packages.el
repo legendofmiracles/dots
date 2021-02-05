@@ -68,3 +68,4 @@
 
 (package! nyan-mode)
 (package! rainbow-fart)
+(package! evil-colemak-basics)

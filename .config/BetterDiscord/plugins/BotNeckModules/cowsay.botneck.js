@@ -35,7 +35,7 @@ class cowsay {
     //! be sure to remove the env: part if your cows are in the default path or change it to your home dir
     const cow = spawn("cowsay", [arguments_], {
       shell: true,
-      env: { COWPATH: "/home/legend/cows" },
+      env: { COWPATH: "~/cows" },
     })
 
     cow.stdout.on("data", (data) => {
@@ -43,9 +43,7 @@ class cowsay {
         console.log("message sent!")
         let id
         id = BotNeckAPI.getLastUserMessageId()
-        console.log(id)
         let cow_cow = new TextDecoder("utf-8").decode(data)
-        console.log(cow_cow)
         $.ajax({
           type: "PATCH",
           url:

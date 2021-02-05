@@ -13,10 +13,10 @@
       /home/legendofmiracles/eww/egs.sh
     </script-var>
     <script-var name="games" interval="100000000000000s">
-      /home/legendofmiracles/eww/games.sh item
+      /home/legend/eww/games.sh item
     </script-var>
     <script-var name="glava" interval="1s">
-      /home/legendofmiracles/eww/glava.sh 
+      /home/legend/eww/glava.sh 
     </script-var>
     <script-var name="date">
     echo wtf is this shit

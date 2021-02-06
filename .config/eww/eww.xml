@@ -9,24 +9,14 @@
     </def>
   </definitions>
   <variables>
-    <script-var name="list" interval="10000s">
-      /home/legendofmiracles/eww/egs.sh
+    <script-var name="list" interval="1s">
+      egs.sh
     </script-var>
     <script-var name="games" interval="100000000000000s">
-      /home/legend/eww/games.sh item
-    </script-var>
-    <script-var name="glava" interval="1s">
-      /home/legend/eww/glava.sh 
-    </script-var>
-    <script-var name="date">
-    echo wtf is this shit
+      games.sh item
     </script-var>
   </variables>
   
-  <includes>
-    <file path="test.xml"/>
-  </includes>
-
   <windows>
     <window name="egs">
       <size x="250" y="80" />
@@ -36,29 +26,9 @@
           Games
           <list/>
           <combo-box/>
-          <button onclick="eww close {{window_name}}">Quit</button>
+          <button onclick="/home/legend/programming/eww/target/debug/eww close {{window_name}}">Quit</button>
           </box>
       </widget>
     </window>
-
-  <window name="test">
-      <size x="250" y="100"/>
-      <pos x="0" y="0"/>
-        <widget>
-          <combo-box-text items="[hello\,bye,asdf,poiuytrew, lolsu]" onchange="notify-send {}">
-              {{date}}
-          </combo-box-text>
-        </widget>
-     </window> 
-
-  <window name="glava">
-    <size x="250" y="80"/>
-    <pos x="1920" y="1080"/>
-    <widget>
-      <label>
-        {{glava}}
-      </label>
-    </widget>
-  </window>
   </windows>
 </eww>

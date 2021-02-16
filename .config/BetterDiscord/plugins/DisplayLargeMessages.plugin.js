@@ -14,12 +14,12 @@ module.exports = (_ => {
 		"info": {
 			"name": "DisplayLargeMessages",
 			"author": "DevilBro",
-			"version": "1.0.7",
+			"version": "1.0.8",
 			"description": "Inject the contents of large messages that were sent by discord via 'message.txt'"
 		},
 		"changelog": {
-			"added": {
-				"Open in popout": "Added an option to add a button that allows you to preview the contents of a 'message.txt' in a popup"
+			"improved": {
+				"Open in Popout": "The open button now gets added to any .txt file not only 'message.txt'"
 			}
 		}
 	};
@@ -28,38 +28,37 @@ module.exports = (_ => {
 		getName () {return config.info.name;}
 		getAuthor () {return config.info.author;}
 		getVersion () {return config.info.version;}
-		getDescription () {return config.info.description;}
+		getDescription () {return `The Library Plugin needed for ${config.info.name} is missing. Open the Plugin Settings to download it. \n\n${config.info.description}`;}
 		
-		load() {
+		downloadLibrary () {
+			require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js", (e, r, b) => {
+				if (!e && b && b.indexOf(`* @name BDFDB`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => BdApi.showToast("Finished downloading BDFDB Library", {type: "success"}));
+				else BdApi.alert("Error", "Could not download BDFDB Library Plugin, try again later or download it manually from GitHub: https://github.com/mwittrien/BetterDiscordAddons/tree/master/Library/");
+			});
+		}
+		
+		load () {
 			if (!window.BDFDB_Global || !Array.isArray(window.BDFDB_Global.pluginQueue)) window.BDFDB_Global = Object.assign({}, window.BDFDB_Global, {pluginQueue: []});
 			if (!window.BDFDB_Global.downloadModal) {
 				window.BDFDB_Global.downloadModal = true;
-				BdApi.showConfirmationModal("Library Missing", `The library plugin needed for ${config.info.name} is missing. Please click "Download Now" to install it.`, {
+				BdApi.showConfirmationModal("Library Missing", `The Library Plugin needed for ${config.info.name} is missing. Please click "Download Now" to install it.`, {
 					confirmText: "Download Now",
 					cancelText: "Cancel",
 					onCancel: _ => {delete window.BDFDB_Global.downloadModal;},
 					onConfirm: _ => {
 						delete window.BDFDB_Global.downloadModal;
-						require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js", (e, r, b) => {
-							if (!e && b && b.indexOf(`* @name BDFDB`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => {});
-							else BdApi.alert("Error", "Could not download BDFDB library plugin, try again some time later.");
-						});
+						this.downloadLibrary();
 					}
 				});
 			}
 			if (!window.BDFDB_Global.pluginQueue.includes(config.info.name)) window.BDFDB_Global.pluginQueue.push(config.info.name);
 		}
-		start() {this.load();}
-		stop() {}
-		getSettingsPanel() {
+		start () {this.load();}
+		stop () {}
+		getSettingsPanel () {
 			let template = document.createElement("template");
-			template.innerHTML = `<div style="color: var(--header-primary); font-size: 16px; font-weight: 300; white-space: pre; line-height: 22px;">The library plugin needed for ${config.info.name} is missing.\nPlease click <a style="font-weight: 500;">Download Now</a> to install it.</div>`;
-			template.content.firstElementChild.querySelector("a").addEventListener("click", _ => {
-				require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js", (e, r, b) => {
-					if (!e && b && b.indexOf(`* @name BDFDB`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => {});
-					else BdApi.alert("Error", "Could not download BDFDB library plugin, try again some time later.");
-				});
-			});
+			template.innerHTML = `<div style="color: var(--header-primary); font-size: 16px; font-weight: 300; white-space: pre; line-height: 22px;">The Library Plugin needed for ${config.info.name} is missing.\nPlease click <a style="font-weight: 500;">Download Now</a> to install it.</div>`;
+			template.content.firstElementChild.querySelector("a").addEventListener("click", this.downloadLibrary);
 			return template.content.firstElementChild;
 		}
 	} : (([Plugin, BDFDB]) => {
@@ -67,7 +66,7 @@ module.exports = (_ => {
 		var settings = {}, amounts = {};
 	
 		return class DisplayLargeMessages extends Plugin {
-			onLoad() {
+			onLoad () {
 				this.defaults = {
 					settings: {
 						onDemand:				{value: false, 	description: "Inject the content of 'message.txt' on demand and not automatically"},
@@ -111,7 +110,7 @@ module.exports = (_ => {
 				`;
 			}
 			
-			onStart() {
+			onStart () {
 				encodedMessages = {};
 				requestedMessages = [];
 				pendingRequests = [];
@@ -132,7 +131,7 @@ module.exports = (_ => {
 				this.forceUpdateAll();
 			}
 			
-			onStop() {
+			onStop () {
 				this.forceUpdateAll();
 			}
 
@@ -248,9 +247,9 @@ module.exports = (_ => {
 			}
 			
 			processAttachment (e) {
-				if (e.instance.props.filename == "message.txt" && (settings.onDemand || amounts.maxFileSize && (amounts.maxFileSize < e.instance.props.size/1024))) {
+				if (typeof e.instance.props.filename == "string") {
 					e.returnvalue.props.children.splice(2, 0, [
-						BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.TooltipContainer, {
+						e.instance.props.filename == "message.txt" && (settings.onDemand || amounts.maxFileSize && (amounts.maxFileSize < e.instance.props.size/1024)) && BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.TooltipContainer, {
 							text: this.labels.button_injectattachment,
 							children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Anchor, {
 								className: BDFDB.disCN._displaylargemessagesinjectbuttonwrapper,
@@ -281,7 +280,7 @@ module.exports = (_ => {
 								}
 							})
 						}),
-						settings.addOpenButton && BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.TooltipContainer, {
+						e.instance.props.filename.endsWith(".txt") && settings.addOpenButton && BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.TooltipContainer, {
 							text: BDFDB.LanguageUtils.LanguageStrings.OPEN,
 							children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.Anchor, {
 								className: BDFDB.disCN._displaylargemessagespopoutbuttonwrapper,
@@ -303,7 +302,7 @@ module.exports = (_ => {
 											BDFDB.ModalUtils.open(this, {
 												size: "LARGE",
 												header: BDFDB.LanguageUtils.LanguageStrings.MESSAGE_PREVIEW,
-												subheader: "",
+												subHeader: "",
 												children: BDFDB.ReactUtils.createElement("div", {
 													className: BDFDB.disCNS.messagepopout + BDFDB.disCN._displaylargemessagespreviewmessage,
 													children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.MessageGroup, {
@@ -448,12 +447,12 @@ module.exports = (_ => {
 							button_injectattachmenty:			"Tải nội dung tin nhắn",
 							context_uninjectattachment:			"Xóa nội dung tin nhắn đã tải"
 						};
-					case "zh":		// Chinese
+					case "zh-CN":	// Chinese (China)
 						return {
 							button_injectattachmenty:			"加载消息内容",
 							context_uninjectattachment:			"删除已加载的邮件内容"
 						};
-					case "zh-TW":	// Chinese (Traditional)
+					case "zh-TW":	// Chinese (Taiwan)
 						return {
 							button_injectattachmenty:			"加載消息內容",
 							context_uninjectattachment:			"刪除已加載的郵件內容"

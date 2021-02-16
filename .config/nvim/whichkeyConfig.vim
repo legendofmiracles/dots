@@ -52,8 +52,7 @@ let g:which_key_map['a'] = {
 " mappings for view and layout
 let g:which_key_map['v'] = {
       \ 'name' : '+view-and-layout',
-      \ 'n' : [':set relativenumber!'            , 'toggle relative numbers' ] ,
-      \ 'm' : [':set nonumber! norelativenumber' , 'toggle numbers'] ,
+      \ 'n' : [':set nu! rnu!'            , 'toggle relative numbers' ] ,
       \ 'g' : [':Goyo | set linebreak'           , 'toggle focus mode'    ] ,
       \ 'i' : [':IndentGuidesToggle'             , 'toggle indent guides' ] ,
       \ }

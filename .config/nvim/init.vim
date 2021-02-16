@@ -26,6 +26,7 @@ if has("autocmd")
 endif
 " Disable Arrow keys in Normal mode
 set langmap=dg,ek,fe,gt,il,jy,kn,lu,nj,pr,rs,sd,tf,ui,yo,op,DG,EK,FE,GT,IL,JY,KN,LU,NJ,PR,RS,SD,TF,UI,YO,OP
+set nu rnu
 let g:vimspector_enable_mappings = 'HUMAN'
 
 " Vanilla VIM configuration ------------------------------------ {{{
@@ -40,7 +41,6 @@ set undofile
 set shortmess+=c " Don't give completion messages like 'match 1 of 2' or 'The only match'
 set hidden
 set encoding=utf-8
-set nonumber norelativenumber
 set nocompatible
 set cursorline
 set incsearch

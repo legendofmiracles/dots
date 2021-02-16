@@ -4,17 +4,24 @@
         name="list">
      <literal content="{{list}}"/> 
     </def>
-    <def name="combo-box">
-      <literal content="{{games}}"/>
+     <def name="pxbar">
+      <progress value="{{volume}}" orientation="v" halign="start" flipped="true"/>
+    </def>
+    <def name="bar" orientation="h" hexpand="true">
+      <progress value="50" orientation="h" halign="start" flipped="true"/>
     </def>
   </definitions>
   <variables>
-    <script-var name="list" interval="1s">
+    <script-var name="list" interval="10s">
       egs.sh
     </script-var>
-    <script-var name="games" interval="100000000000000s">
-      games.sh item
+     <script-var name="volume">
+    amixer sget 'Master' | grep 'Front Left:' | sed 's/.*\[\(.*\)%\].*/\1/g';
+    LANG=C pactl subscribe | grep --line-buffered sink | while read -r _; do
+      amixer sget 'Master' | grep 'Front Left:' | sed 's/.*\[\(.*\)%\].*/\1/g'
+    done
     </script-var>
+
   </variables>
   
   <windows>
@@ -23,11 +30,25 @@
       <pos x="0" y="0" />
       <widget>
         <box orientation="v">
+          RAM: {{EWW_DISK}}
           Games
           <list/>
-          <combo-box/>
-          <button onclick="/home/legend/programming/eww/target/debug/eww close {{window_name}}">Quit</button>
+          <button onclick="${HOME}/programming/eww/target/debug/eww close {{WINDOW_NAME}}">Quit</button>
           </box>
+      </widget>
+    </window>
+
+    <window name="volume" stacking="fg">
+      <geometry anchor="center left" width="1px" height="100%" x="1px" y="0px"/>
+      <widget>
+        <pxbar/>
+      </widget>
+    </window>
+
+    <window name="bar" stacking="fg">
+      <geometry anchor="top center" width="100%" height="14px"/>
+      <widget>
+        <bar/>
       </widget>
     </window>
   </windows>

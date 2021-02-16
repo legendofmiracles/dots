@@ -35,7 +35,7 @@ class cowsay {
     //! be sure to remove the env: part if your cows are in the default path or change it to your home dir
     const cow = spawn("cowsay", [arguments_], {
       shell: true,
-      env: { COWPATH: "~/cows" },
+      env: { COWPATH: "/home/legend/cows" },
     })
 
     cow.stdout.on("data", (data) => {

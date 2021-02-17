@@ -71,7 +71,8 @@ let g:which_key_map['x'] = {
       \ 'h' : [':History:'      ,  'search command history'],
       \ 'c' : [':Commands'      ,  'search through commands'],
       \ 's' : ['OverCommandLine',  'Substitute with preview'],
-      \ 'y' : [':CocList -A --normal yank', 'Show yank history']
+      \ 'y' : [':CocList -A --normal yank', 'Show yank history'],
+      \ 'u' : [':UndotreeToggle', 'Show undo history'],
       \ }
 
 " CocList -A --normal yank needs :CocInstall coc-yank

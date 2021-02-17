@@ -5,10 +5,10 @@
      <literal content="{{list}}"/> 
     </def>
      <def name="pxbar">
-      <progress value="{{volume}}" orientation="v" halign="start" flipped="true"/>
+      <progress value="{{volume}}" orientation="v" halign="start" flipped="true" class="animate"/>
     </def>
     <def name="bar" orientation="h" hexpand="true">
-      <progress value="50" orientation="h" halign="start" flipped="true"/>
+        <progress value="100" orientation="h" halign="center" flipped="true" width="192"/>
     </def>
   </definitions>
   <variables>
@@ -21,6 +21,10 @@
       amixer sget 'Master' | grep 'Front Left:' | sed 's/.*\[\(.*\)%\].*/\1/g'
     done
     </script-var>
+    <var name="bar_var">
+      0
+    </var>
+
 
   </variables>
   
@@ -46,9 +50,9 @@
     </window>
 
     <window name="bar" stacking="fg">
-      <geometry anchor="top center" width="100%" height="14px"/>
+      <geometry anchor="top center" width="100%" height="14px" x="1px" y="0px"/>
       <widget>
-        <bar/>
+          <literal content="{{bar_var}}"/>
       </widget>
     </window>
   </windows>

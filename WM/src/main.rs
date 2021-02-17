@@ -19,7 +19,7 @@ impl<X: XConn> Hook<X> for MeHooks {
         previous_workspace: usize,
         new_workspace: usize,
     ) -> Result<()> {
-        std::process::Command::new("notify-send")
+        std::process::Command::new("bar.py")
             .arg(format!("{}", new_workspace))
             .spawn()?;
         Ok(())

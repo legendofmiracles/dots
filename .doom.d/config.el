@@ -81,3 +81,7 @@
 
 
 (after! rustic  (setq rustic-lsp-server 'rust-analyzer))
+
+(use-package evil-colemak-basics
+  :config
+  (global-evil-colemak-basics-mode))

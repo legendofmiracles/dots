@@ -8,5 +8,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 xss-lock --transfer-sleep-lock -- lock --nofork &
 # /home/legend/bin/gaming_stop.sh &
-#bash -c "sleep 1; polybar.sh" &
-exec ~/WM/target/release/WM &> penrose.log # $(echo i3\n~/WM/target/release/WM &> penrose.log | fzf)
+bash -c "sleep 1; polybar.sh" &
+# exec ~/WM/target/release/WM &> penrose.log # $(echo i3\n~/WM/target/release/WM &> penrose.log | fzf)
+ exec i3

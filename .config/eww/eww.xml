@@ -34,7 +34,8 @@
       <pos x="0" y="0" />
       <widget>
         <box orientation="v">
-          RAM: {{EWW_DISK}}
+          network down: {{EWW_NET_DOWN}}
+          network up: {{EWW_NET_UP}}
           Games
           <list/>
           <button onclick="${HOME}/programming/eww/target/debug/eww close {{WINDOW_NAME}}">Quit</button>

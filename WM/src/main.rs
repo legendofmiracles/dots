@@ -1,8 +1,14 @@
 #[macro_use]
 extern crate penrose;
 use penrose::{
-    contrib::extensions::Scratchpad,
-    core::{helpers::index_selectors, hooks::Hook, xconnection::XConn},
+    contrib::{extensions::Scratchpad, hooks::AutoSetMonitorsViaXrandr, layouts::paper},
+    core::{
+        data_types::RelativePosition,
+        helpers::index_selectors,
+        hooks::Hook,
+        layout::{bottom_stack, monocle, side_stack, Layout, LayoutConf},
+        xconnection::XConn,
+    },
     logging_error_handler,
     xcb::{new_xcb_backed_window_manager, XcbHooks},
     Backward, Config, Forward, Less, More, Result, Selector, WindowManager,
@@ -32,10 +38,23 @@ fn main() -> penrose::Result<()> {
     };
     let mut config_builder = Config::default().builder();
 
+    // Default number of clients in the main layout area
+    let n_main = 1;
+
+    // Default percentage of the screen to fill with the main area of the layout
+    let ratio = 0.6;
+
     let config = config_builder
         .focused_border(0xFF217C)
         .unfocused_border(0x00000)
         .bar_height(14)
+        .layouts(vec![
+            Layout::new("[side]", LayoutConf::default(), side_stack, n_main, ratio),
+            Layout::new("[botm]", LayoutConf::default(), bottom_stack, n_main, ratio),
+            Layout::new("[papr]", LayoutConf::default(), paper, n_main, ratio),
+            Layout::new("[mono]", LayoutConf::default(), monocle, n_main, ratio),
+            Layout::floating("[----]"),
+        ])
         .build()
         .unwrap();
 
@@ -44,6 +63,7 @@ fn main() -> penrose::Result<()> {
         Box::new(MeHooks {}),
         penrose::contrib::hooks::LayoutSymbolAsRootName::new(),
         scratchpad.get_hook(),
+        AutoSetMonitorsViaXrandr::new("eDP-1", "DP-1-1", RelativePosition::Right),
     ];
 
     let key_bindings = gen_keybindings! {
@@ -59,18 +79,20 @@ fn main() -> penrose::Result<()> {
         // things
         "M-S-q" => run_internal!(kill_client);
         "M-Tab" => run_internal!(toggle_workspace);
-        "M-grave" => run_internal!(cycle_layout, Forward);
-        "M-S-grave" => run_internal!(cycle_layout, Backward);
-        "M-A-Up" => run_internal!(update_max_main, More);
-        "M-A-Down" => run_internal!(update_max_main, Less);
-        "M-A-Right" => run_internal!(update_main_ratio, More);
-        "M-A-Left" => run_internal!(update_main_ratio, Less);
+        "M-g" => run_internal!(cycle_layout, Forward);
+        "M-S-g" => run_internal!(cycle_layout, Backward);
+        "M-Up" => run_internal!(update_max_main, More);
+        "M-Down" => run_internal!(update_max_main, Less);
+        "M-Right" => run_internal!(update_main_ratio, More);
+        "M-Left" => run_internal!(update_main_ratio, Less);
         "M-f" => run_internal!(toggle_client_fullscreen, &Selector::Focused);
 
         // applications
         "M-d" => run_external!("rofi_pre");
         "M-Return" => run_external!("alacritty");
         "M-q" => run_external!("flameshot gui");
+        "M-<" => run_external!("toggle_mute.sh");
+        "M-r" => run_external!("text_from_image");
 
         // scratchpads
         "M-z" => scratchpad.toggle();

@@ -60,7 +60,7 @@ font-1 = "Font Awesome 5 Free:style=Regular:pixelsize=14;3"
 font-2 = "Font Awesome 5 Free:style=Solid:pixelsize=14;3"
 font-3 = "Font Awesome 5 Brands:pixelsize=14;3"
 
-;modules-left = i3
+modules-left = ewmh
 ;modules-center = 
 modules-right =  separator network-wlan battery-internal battery-external pulseaudio backlight date separator power-menu
 
@@ -587,8 +587,16 @@ label-urgent-padding = 2
 ; Separator in between workspaces
 ; label-separator = |
 
-[module/gmail]
-type = custom/script
-exec = ~/.config/polybar/gmail/launch.py
-tail = true
-click-left = thunderbird &
+[module/ewmh]
+type = internal/xworkspaces
+
+format = <label-state>
+
+label-active = " %index% "
+label-occupied = " %index% "
+label-urgent = " %index% "
+label-empty = ""
+label-active-background = #ff217c
+label-active-underline = ${colors.primary}
+label-active-padding = 1.5
+label-occupied-padding = 1.5

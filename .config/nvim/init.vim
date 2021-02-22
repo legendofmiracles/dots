@@ -28,6 +28,7 @@ endif
 set langmap=dg,ek,fe,gt,il,jy,kn,lu,nj,pr,rs,sd,tf,ui,yo,op,DG,EK,FE,GT,IL,JY,KN,LU,NJ,PR,RS,SD,TF,UI,YO,OP
 set nu rnu
 let g:vimspector_enable_mappings = 'HUMAN'
+au VimEnter * AWStart
 
 " Vanilla VIM configuration ------------------------------------ {{{
 

@@ -26,6 +26,7 @@ Plug 'branwright1/salvation-vim'
     Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
   endif
 
+  Plug 'ActivityWatch/aw-watcher-vim'
   Plug 'mbbill/undotree'
   Plug 'tpope/vim-fugitive'
   Plug 'puremourning/vimspector'

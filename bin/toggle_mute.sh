@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 sources=$(pamixer --list-sources | /bin/grep -v monitor | /bin/grep -v Sources | cut -d " " -f 1 ) 
 
 while IFS= read -r line; do

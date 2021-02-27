@@ -34,8 +34,15 @@
       <pos x="0" y="0" />
       <widget>
         <box orientation="v">
-          network down: {{EWW_NET_DOWN}}
-          network up: {{EWW_NET_UP}}
+          ram: {{EWW_RAM}}
+          cores: {{EWW_CORES}}
+            disk: {{EWW_DISK}}
+            EWW_BATTERY: {{EWW_BATTERY}}
+            EWW_CPU: {{EWW_CPU}}
+            EWW_NET_UP: {{EWW_NET_UP}}
+            EWW_NET_DOWN: {{EWW_NET_DOWN}}
+        
+
           Games
           <list/>
           <button onclick="${HOME}/programming/eww/target/debug/eww close {{WINDOW_NAME}}">Quit</button>

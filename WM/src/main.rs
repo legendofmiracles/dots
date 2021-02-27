@@ -9,6 +9,7 @@ use penrose::{
         layout::{bottom_stack, monocle, side_stack, Layout, LayoutConf},
         xconnection::XConn,
     },
+    draw::Color,
     logging_error_handler,
     xcb::{new_xcb_backed_window_manager, XcbHooks},
     Backward, Config, Forward, Less, More, Result, Selector, WindowManager,
@@ -45,8 +46,8 @@ fn main() -> penrose::Result<()> {
     let ratio = 0.6;
 
     let config = config_builder
-        .focused_border(0xFF217C)
-        .unfocused_border(0x00000)
+        .focused_border(0xFF217C)?
+        .unfocused_border(0x00000)?
         .bar_height(14)
         .layouts(vec![
             Layout::new("[side]", LayoutConf::default(), side_stack, n_main, ratio),
@@ -91,15 +92,15 @@ fn main() -> penrose::Result<()> {
         "M-d" => run_external!("rofi_pre");
         "M-Return" => run_external!("alacritty");
         "M-q" => run_external!("flameshot gui");
-        "M-<" => run_external!("toggle_mute.sh");
+        "M-y" => run_external!("toggle_mute.sh");
         "M-r" => run_external!("text_from_image");
 
         // scratchpads
         "M-z" => scratchpad.toggle();
 
-        refmap [ 1..10 ] in {
-            "M-{}" => focus_workspace [ index_selectors(9) ];
-            "M-S-{}" => client_to_workspace [ index_selectors(9) ];
+        map: { "1", "2", "3", "4", "5", "6", "7", "8", "9" } to_index_selectors(9) => {
+            "M-{}" => focus_workspace [ REF ];
+            "M-S-{}" => client_to_workspace [ REF ];
         };
     };
 

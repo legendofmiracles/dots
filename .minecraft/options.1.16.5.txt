@@ -1,5 +1,5 @@
 version:2586
-autoJump:true
+autoJump:false
 autoSuggestions:true
 chatColors:true
 chatLinks:true
@@ -18,7 +18,7 @@ fullscreen:false
 bobView:true
 toggleCrouch:false
 toggleSprint:false
-mouseSensitivity:0.3309859037399292
+mouseSensitivity:0.18309859154929578
 fov:0.7
 screenEffectScale:1.0
 fovEffectScale:1.0
@@ -58,13 +58,13 @@ useNativeTransport:true
 mainHand:right
 attackIndicator:1
 narrator:0
-tutorialStep:movement
+tutorialStep:none
 mouseWheelSensitivity:1.0
 rawMouseInput:true
 glDebugVerbosity:1
 skipMultiplayerWarning:true
 hideMatchedNames:true
-joinedFirstServer:false
+joinedFirstServer:true
 syncChunkWrites:false
 key_key.attack:key.mouse.left
 key_key.use:key.mouse.right

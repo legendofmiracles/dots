@@ -94,6 +94,7 @@ fn main() -> penrose::Result<()> {
         "M-q" => run_external!("flameshot gui");
         "M-y" => run_external!("toggle_mute.sh");
         "M-r" => run_external!("text_from_image");
+        "M-w" => run_external!("giph.sh");
 
         // scratchpads
         "M-z" => scratchpad.toggle();

@@ -931,3 +931,7 @@ See the above repository for updates as well as full license text. */
 #navigator-toolbox{ flex-direction: column; display: flex; }
 #titlebar{ order: 2 }
 */
+
+#webrtcIndicator {
+  display: none;
+}

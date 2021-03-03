@@ -1,4 +1,5 @@
 #[macro_use]
+use hidapi::HidApi;
 extern crate penrose;
 use penrose::{
     contrib::{extensions::Scratchpad, hooks::AutoSetMonitorsViaXrandr, layouts::paper},
@@ -26,9 +27,25 @@ impl<X: XConn> Hook<X> for MeHooks {
         previous_workspace: usize,
         new_workspace: usize,
     ) -> Result<()> {
-        std::process::Command::new("bar.py")
-            .arg(format!("{}", new_workspace))
-            .spawn()?;
+        wm.workspace_mut(&Selector::Index(new_workspace))
+            .unwrap()
+            .iter()
+            .map(|a| {
+                if wm.client(&Selector::WinId(*a)).unwrap().is_fullscreen() {
+                    wm.toggle_client_fullscreen(&Selector::WinId(*a));
+                    wm.toggle_client_fullscreen(&Selector::WinId(*a));
+                }
+            });
+        //std::process::Command::new("bar.py")
+        //    .arg(format!("{}", new_workspace))
+        //    .spawn()?;
+
+        let api = HidApi::new().unwrap();
+        let keeb = api.open(0x3297, 0x0001);
+        if keeb.is_ok() {
+            let codes = vec![28, 33, 38, 43, 47, 0, 5, 10, 15];
+            keeb.unwrap().write(&[0u8, codes[new_workspace - 1] as u8]);
+        }
         Ok(())
     }
 }
@@ -100,8 +117,8 @@ fn main() -> penrose::Result<()> {
         "M-z" => scratchpad.toggle();
 
         map: { "1", "2", "3", "4", "5", "6", "7", "8", "9" } to_index_selectors(9) => {
-            "M-{}" => focus_workspace [ REF ];
-            "M-S-{}" => client_to_workspace [ REF ];
+            "M-{}" => focus_workspace (REF);
+            "M-S-{}" => client_to_workspace (REF);
         };
     };
 

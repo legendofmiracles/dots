@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 penrose = {path="/home/legend/programming/penrose/"}
 simplelog = "0.9.0"
+hidapi = "1.2.5"

@@ -89,18 +89,6 @@ if !has("nvim")
   set term=xterm-256color
 endif
 
-" Clipboard support in WSL
-func! GetSelectedText()
-    normal gv"xy
-    let result = getreg("x")
-    return result
-endfunc
-
-if !has("clipboard") && executable("clip.exe")
-    vnoremap <C-C> :call system('clip.exe', GetSelectedText())<CR>
-    vnoremap <C-X> :call system('clip.exe', GetSelectedText())<CR>gvx
-endif
-
 
 " Mouse config
 set mouse=a

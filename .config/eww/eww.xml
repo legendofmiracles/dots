@@ -24,6 +24,9 @@
     <var name="bar_var">
       0
     </var>
+    <var name="color">
+      "#f00"
+    </var>
 
 
   </variables>
@@ -33,7 +36,7 @@
       <size x="250" y="80" />
       <pos x="0" y="0" />
       <widget>
-        <box orientation="v">
+        <box orientation="v" onhover="touch ~/sup" style="background-color: {{color}};">
           ram: {{EWW_RAM}}
           cores: {{EWW_CORES}}
             disk: {{EWW_DISK}}
@@ -45,7 +48,7 @@
 
           Games
           <list/>
-          <button onclick="${HOME}/programming/eww/target/debug/eww close {{WINDOW_NAME}}">Quit</button>
+          <button onhover="touch ~/sup" onclick="${HOME}/programming/eww/target/debug/eww close {{WINDOW_NAME}}">Quit</button>
           </box>
       </widget>
     </window>

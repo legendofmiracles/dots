@@ -1,21 +1,22 @@
 window {
   font-family: CaskaydiaCove Nerd Font Mono;
 }
-.animate {
+progressbar {
+
 
   &, & * {
     all: unset;
   }
 
-  //progress {
-    //min-width: 1px;
+  progress {
+    min-width: 1px;
     //background-color: #8CD68F;
     //box-shadow: 0 0 10px 3px #8CD68F22;
-  //}
+  }
 }
 
-.animate progress {
-    background: repeating-linear-gradient(0deg, #FF217C, #000); 
+progressbar progress {
+    background: repeating-linear-gradient(0deg, #FF217C, #000); /*, #b8bb26, #fabd2f);*/
     background-size: 100% 200%;
 
     animation: AnimationName 1s linear infinite;
@@ -25,27 +26,3 @@ window {
     0%{background-position:0% 0%}
     100%{background-position:0% 200%}
 }
-
-.focused > trough > progress {
-  //background-image: none;
-  progress {
-  background: repeating-linear-gradient(0deg, #FF217C, #000); 
-  background-size: 100% 200%; 
-
-  }
-  &, & * {
-    all: unset;
-  }
-
-  //background-color: pink;
-}
-
-.unfocused {
-  background-image: none;
-  background-color: #FF217C;
-  color: #FF217C;
-  border-bottom-color: #FF217C;
-  outline-color: #FF217C;
-}
-
-

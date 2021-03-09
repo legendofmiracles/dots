@@ -14,9 +14,9 @@ xss-lock --transfer-sleep-lock -- lock --nofork &
 bash -c "sleep 1; polybar.sh" &
 
 # activity watch
-aw-server-rust &
-aw-watcher-afk &
-aw-watcher-window &
+#aw-server-rust &
+#aw-watcher-afk &
+#aw-watcher-window &
 
 exec ~/WM/target/release/WM &> penrose.log 
 #exec i3

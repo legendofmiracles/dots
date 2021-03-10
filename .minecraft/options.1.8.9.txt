@@ -1,5 +1,5 @@
 invertYMouse:false
-mouseSensitivity:0.11971831
+mouseSensitivity:0.04225352
 fov:0.7
 gamma:1.0
 saturation:0.0
@@ -16,7 +16,7 @@ ao:2
 renderClouds:true
 resourcePacks:["cooldude"]
 incompatibleResourcePacks:[]
-lastServer:mcdiamondfire.net
+lastServer:hivemc.com
 lang:en_us
 chatVisibility:0
 chatColors:true

@@ -49,6 +49,7 @@
           Games
           <list/>
           <button onhover="touch ~/sup" onclick="${HOME}/programming/eww/target/debug/eww close {{WINDOW_NAME}}">Quit</button>
+          <calendar year="2021" onclick="notify-send '{}'"/>
           </box>
       </widget>
     </window>

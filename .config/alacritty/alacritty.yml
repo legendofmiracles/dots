@@ -90,18 +90,18 @@ env:
 # Font configuration
 font:
     normal:
-        family: Cascadia Code
+        family: Cascadia Mono PL
         style: Regular
     bold:
-        family: Cascadia Code 
+        family: Cascadia Mono PL
         style: Bold
   
     italic:
-        family: Cascadia Code 
+        family: Cascadia Mono PL
         style: Italic
   
     bold_italic:
-        family: Cascadia Code 
+        family: Cascadia Mono PL
         style: Bold Italic
     size: 8.0
 

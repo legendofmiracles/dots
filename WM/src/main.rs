@@ -11,7 +11,7 @@ use penrose::{
         xconnection::XConn,
     },
     draw::Color,
-    logging_error_handler,
+    gen_keybindings, logging_error_handler, map,
     xcb::{new_xcb_backed_window_manager, XcbHooks},
     Backward, Config, Forward, Less, More, Result, Selector, WindowManager,
 };

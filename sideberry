@@ -1,0 +1,41 @@
+/* Hide scrollbars */
+body {
+    overflow: hidden;
+}
+
+/* Nav bar on the bottom */
+.NavigationBar {
+    order: 1;
+}
+
+/* Center tabs on the collapsed view */
+.Tab {
+    padding-left: 2px;
+}
+
+/* Border on the right */
+.Sidebar {
+    border-right: solid 1px #1d2021;
+}
+
+/* Don't darken the favicon on hover */
+.Tab:hover .fav {
+    opacity: 1;
+}
+
+/* Audio indicator on the favicon, unclickable */
+.Tab .audio {
+ top:5px;
+ left:8px;
+ z-index:21 !important;
+ pointer-events: none;
+}
+
+.Tab[data-audible] .t-box, .Tab[data-muted] .t-box {
+    transform: none;
+}
+
+/* Overflowing tab titles fading out */
+.t-box {
+    width: 250px;
+}
